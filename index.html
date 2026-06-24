@@ -1415,6 +1415,13 @@ input:focus, select:focus, textarea:focus {
    - Uses relative /api path (proxied to localhost:8080)
 ════════════════════════════════════════════════════════ */
 
+function lsGet(key) {
+  return localStorage.getItem('kb_' + key) || localStorage.getItem('trainserve_' + key);
+}
+function lsSet(key, val) {
+  localStorage.setItem('kb_' + key, val);
+}
+
 // Fixed production Render backend URL
 const API = 'https://trainserve-backend.onrender.com/api';
 console.log('🔌 Using API URL:', API);
