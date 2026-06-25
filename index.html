@@ -2527,57 +2527,56 @@ function renderHome(el) {
   el.innerHTML = `
     <div class="landing-hero">
       <div class="landing-hero-content">
-        <span class="badge badge-accepted" style="background: rgba(255, 255, 255, 0.2); color: #FFFFFF; font-size: 11px; margin-bottom: 12px; display: inline-flex;">🚆 Network-Wide Rail Delivery</span>
-        <h1>Delicious Meals, Delivered to Your Train Seat</h1>
-        <p>Skip the station platform rush. Browse our pantry and stall menus, place your order, and our crew will deliver it directly to your coach in minutes.</p>
+        <span class="badge badge-accepted" style="background: rgba(255, 255, 255, 0.2); color: #FFFFFF; font-size: 11px; margin-bottom: 12px; display: inline-flex;">📦 Bulk Logistics & Supply</span>
+        <h1>Bulk Supply Delivery for Pantry & Platform Stalls</h1>
+        <p>Streamline your inventory. Order water cases, beverages, snacks, and ice creams in bulk. Delivered directly to train pantry cars or station platform stalls across the railway network.</p>
         <div class="landing-cta-row">
-          <button class="btn btn-primary" onclick="navigateTo('place-order')">Browse Menu & Order Now</button>
+          <button class="btn btn-primary" onclick="navigateTo('place-order')">Place Bulk Order</button>
           <button class="btn btn-outline" onclick="showAuthPage('user')" style="background:transparent; color:#fff; border-color:rgba(255,255,255,0.4)">Portal Sign In</button>
         </div>
       </div>
     </div>
 
     <div class="landing-section-title">How It Works</div>
-    <div class="landing-section-sub">Get your favorite snacks in 3 simple steps</div>
+    <div class="landing-section-sub">Simple three-step supply ordering pipeline</div>
 
     <div class="landing-steps-grid">
       <div class="landing-step-card">
-        <div class="landing-step-icon">🍔</div>
-        <h3>1. Select Your Food</h3>
-        <p>Browse snacks, drinks, water bottles, and ice creams. Add your items to the shopping cart.</p>
+        <div class="landing-step-icon">📦</div>
+        <h3>1. Select Bulk Products</h3>
+        <p>Browse our catalog of beverages, snacks, water cases, and ice cream packs. Specify the bulk quantities you need.</p>
       </div>
       <div class="landing-step-card">
         <div class="landing-step-icon">📋</div>
-        <h3>2. Enter Seat & Train</h3>
-        <p>Provide your name, train number, seat/coach info, and your expected arrival station.</p>
+        <h3>2. Enter Supply Details</h3>
+        <p>Provide your details as a Train Pantry Coordinator (with train details) or Platform Stall Owner (with platform number).</p>
       </div>
       <div class="landing-step-card">
-        <div class="landing-step-icon">⚡</div>
-        <h3>3. Direct Delivery</h3>
-        <p>Our onboard crew will meet your train at the platform and deliver it straight to your seat.</p>
+        <div class="landing-step-icon">🚛</div>
+        <h3>3. Bulk Delivery</h3>
+        <p>Our network crew coordinates with the train schedule or stall location for a prompt, direct delivery of your supplies.</p>
       </div>
     </div>
 
     <div class="landing-portals">
       <div class="landing-portal-card">
         <div>
-          <h3>Passenger Ordering Menu</h3>
-          <p>Hungry on your journey? Click below to view the catalog of available snacks, water bottles, beverages, and ice creams.</p>
+          <h3>Train Pantry Supplies</h3>
+          <p>Are you a Train Pantry Coordinator? Order bottled water, beverages, and snack packs in bulk for your onboard inventory.</p>
         </div>
         <button class="btn btn-primary btn-sm" onclick="navigateTo('place-order')" style="align-self: flex-start; margin-top: 12px;">Order Now</button>
       </div>
       
       <div class="landing-portal-card">
         <div>
-          <h3>Station Stall & Crew Portal</h3>
-          <p>Are you a delivery crew member checking active deliveries, or a stall owner managing inventory and staff?</p>
+          <h3>Platform Stall Supplies</h3>
+          <p>Are you a station platform stall owner? Keep your inventory stocked with fresh supply batches delivered directly to your platform stall.</p>
         </div>
-        <button class="btn btn-outline btn-sm" onclick="showAuthPage('user')" style="align-self: flex-start; margin-top: 12px;">Portal Login</button>
+        <button class="btn btn-outline btn-sm" onclick="navigateTo('place-order')" style="align-self: flex-start; margin-top: 12px;">Order Supplies</button>
       </div>
     </div>
   `;
 }
-
   
 function setOrderType(type) {
   orderType = type;
