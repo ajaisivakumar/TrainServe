@@ -1498,48 +1498,49 @@ const BASE_PRODUCTS = [
   { id:'vanila', name:'Vanila Ice Cream', icon:'🍨', img:'assets/products/CAVINS-VANILA.jpg', price:40, unit:'Cup' }
 ];
 
-// Load admin-added products from localStorage and merge
-
-// Original hardcoded catalog — treated as the base list
-//const BASE_PRODUCTS = PRODUCTS; // PRODUCTS here is your original const array (rename it to BASE_PRODUCTS in its declaration, or keep as-is and reference it once before reassigning below)
 let PRODUCTS = [];
 
-function rebuildProducts() {
+// Fallback logic in case backend is offline/unreachable
+function rebuildProductsFromLocalStorage() {
   const customs    = JSON.parse(lsGet('custom_products') || '[]');
   const overrides  = JSON.parse(lsGet('product_overrides') || '{}');
-
   let merged = [...BASE_PRODUCTS, ...customs].map(p => ({ ...p, inStock: true }));
-
   merged = merged
     .map(p => overrides[p.id] ? { ...p, ...overrides[p.id] } : p)
     .filter(p => !p.deleted);
-
   PRODUCTS = merged;
 }
 
-function saveCustomProduct(product) {
-  const customs = JSON.parse(lsGet('custom_products') || '[]');
-  customs.push(product);
-  lsSet('custom_products', JSON.stringify(customs));
-  rebuildProducts();
-}
-
-function saveOverride(id, changes) {
-  const overrides = JSON.parse(lsGet('product_overrides') || '{}');
-  overrides[id] = { ...(overrides[id]||{}), ...changes };
-  lsSet('product_overrides', JSON.stringify(overrides));
-
-  // If it's a custom product (not base), update it directly in the customs array too
-  const customs = JSON.parse(lsGet('custom_products') || '[]');
-  const idx = customs.findIndex(c => c.id === id);
-  if (idx !== -1) {
-    customs[idx] = { ...customs[idx], ...changes };
-    lsSet('custom_products', JSON.stringify(customs));
+// Dynamically fetch and sync products catalog + stock status from your Render DB
+async function fetchProducts() {
+  if (!API) {
+    rebuildProductsFromLocalStorage();
+    return;
   }
-  rebuildProducts();
+  try {
+    const data = await apiFetch('/products');
+    PRODUCTS = data.map(p => ({
+      id: p.id,
+      name: p.name,
+      icon: p.icon,
+      img: p.img,
+      price: parseFloat(p.price),
+      unit: p.unit,
+      inStock: p.in_stock !== false,
+      casePrice: p.case_price ? parseFloat(p.case_price) : null,
+      piecesPerCase: p.pieces_per_case ? parseInt(p.pieces_per_case, 10) : null
+    }));
+  } catch (err) {
+    console.error('Error fetching products catalog from database:', err);
+    // Offline / unreachable fallback
+    rebuildProductsFromLocalStorage();
+  }
 }
 
-rebuildProducts();
+// Initial fallback load
+rebuildProductsFromLocalStorage();
+
+  
 
 const REMINDER_STEPS = [
   { step:'Step 1 of 3', title:'Are all items packed?',          body:'Verify every item in this order is packed and ready.' },
@@ -1781,6 +1782,7 @@ const MOBILE_NAV = {
 // everyone else lands on the public guest homepage.
 // /#admin (or /admin/ on GitHub Pages, see note below) opens the admin login directly.
 (async function boot() {
+  await fetchProducts(); // Load products and stock status from Render database first
   if (currentUser?.token) {
     await loadCrew();
     launchApp();
@@ -1793,6 +1795,7 @@ const MOBILE_NAV = {
   launchGuestApp();
 })();
 
+  
 window.addEventListener('hashchange', () => {
   if (!currentUser && window.location.hash === '#admin') showAuthPage('admin');
 });
@@ -2066,7 +2069,7 @@ function updateApPreview() {
   preview.innerHTML = `Per-unit price: <strong style="color:var(--text)">₹${perUnit}</strong> &nbsp;(₹${caseprice} ÷ ${pieces} pcs)`;
 }
 
-function submitProductForm(existingId) {
+async function submitProductForm(existingId) {
   const name      = document.getElementById('ap-name').value.trim();
   const caseprice = parseFloat(document.getElementById('ap-caseprice').value);
   const pieces    = parseInt(document.getElementById('ap-pieces').value);
@@ -2079,35 +2082,63 @@ function submitProductForm(existingId) {
 
   const perUnit = Math.round((caseprice / pieces) * 100) / 100;
 
-  if (existingId) {
-    saveOverride(existingId, { name, price: perUnit, casePrice: caseprice, piecesPerCase: pieces, img, imageUrl: img });
-    toast('Product updated.', 'ok');
-  } else {
-    const newProduct = {
-      id: 'custom-' + Date.now(),
-      name, icon: '📦', img, imageUrl: img,
-      price: perUnit, unit: 'Piece',
-      casePrice: caseprice, piecesPerCase: pieces,
-    };
-    saveCustomProduct(newProduct);
-    toast(`${name} added — ₹${perUnit}/piece`, 'ok');
+  try {
+    if (existingId) {
+      await apiFetch('/products/' + existingId, {
+        method: 'PUT',
+        body: JSON.stringify({ name, price: perUnit, casePrice: caseprice, piecesPerCase: pieces, img })
+      });
+      toast('Product updated.', 'ok');
+    } else {
+      const newProduct = {
+        id: 'custom-' + Date.now(),
+        name, icon: '📦', img,
+        price: perUnit, unit: 'Piece',
+        casePrice: caseprice, piecesPerCase: pieces,
+      };
+      await apiFetch('/products', {
+        method: 'POST',
+        body: JSON.stringify(newProduct)
+      });
+      toast(`${name} added — ₹${perUnit}/piece`, 'ok');
+    }
+    closeModal();
+    await fetchProducts(); // Refresh catalog state
+    navigateTo('add-product'); // Redraw the product list view
+  } catch (err) {
+    console.error(err);
+    toast(err.message, 'err');
   }
-
-  closeModal();
-  navigateTo('add-product');
 }
 
-function toggleStock(id, makeInStock) {
-  saveOverride(id, { inStock: makeInStock });
-  toast(makeInStock ? 'Marked in stock.' : 'Marked out of stock.', 'ok');
-  navigateTo('add-product');
+async function toggleStock(id, makeInStock) {
+  try {
+    await apiFetch('/products/' + id + '/stock', {
+      method: 'PATCH',
+      body: JSON.stringify({ inStock: makeInStock })
+    });
+    toast(makeInStock ? 'Marked in stock.' : 'Marked out of stock.', 'ok');
+    await fetchProducts(); // Refresh catalog state
+    navigateTo('add-product'); // Redraw view
+  } catch (err) {
+    console.error(err);
+    toast(err.message, 'err');
+  }
 }
 
-function deleteProduct(id) {
+async function deleteProduct(id) {
   if (!confirm('Remove this product permanently?')) return;
-  saveOverride(id, { deleted: true });
-  toast('Product removed.', 'ok');
-  navigateTo('add-product');
+  try {
+    await apiFetch('/products/' + id, {
+      method: 'DELETE'
+    });
+    toast('Product removed.', 'ok');
+    await fetchProducts(); // Refresh catalog state
+    navigateTo('add-product'); // Redraw view
+  } catch (err) {
+    console.error(err);
+    toast(err.message, 'err');
+  }
 }
 
 /* ════════════════════════════════════════════════════════
