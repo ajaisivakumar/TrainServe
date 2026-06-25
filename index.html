@@ -505,6 +505,89 @@ textarea { resize: vertical; min-height: 64px; }
 .clock-num:hover { background: var(--border); }
 .clock-num.active { background: var(--accent); color: var(--accent-fg); }
 
+
+
+
+
+
+
+
+  /* ─── Two-Column Order Layout & Hero Banner ─── */
+.order-layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 24px;
+  align-items: start;
+  width: 100%;
+}
+
+.hero-banner {
+  background: linear-gradient(135deg, #1E3A8A 0%, #2563EB 60%, #3B82F6 100%);
+  border-radius: 16px;
+  padding: 28px 24px;
+  color: #FFFFFF;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.15);
+}
+
+.hero-banner::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 160px; height: 160px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 50%;
+}
+
+.hero-banner h1 {
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: #FFFFFF;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.hero-banner p {
+  font-size: 13px;
+  opacity: 0.9;
+  line-height: 1.6;
+  max-width: 480px;
+}
+
+.search-wrap {
+  position: relative;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.search-wrap input {
+  padding-left: 40px;
+  height: 44px;
+  border-radius: 10px;
+}
+
+.search-wrap::before {
+  content: '🔍';
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 15px;
+  pointer-events: none;
+}
+
+@media (max-width: 990px) {
+  .order-layout {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+  
+
 /* ─── Product grid ─── */
 .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
 @media (max-width: 520px) { .product-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -2149,62 +2232,110 @@ function renderPlaceOrder(el) {
   orderType = 'train';
   el.innerHTML = `
     <div class="page-header">
-      <div><div class="section-title">New Order</div>
-      <div class="section-sub">Tell us who's ordering, then select items below.</div></div>
-    </div>
-
-    <div class="card mb-16">
-      <div class="card-header"><div class="card-title">Who is placing this order?</div></div>
-      <div class="role-selector">
-        <button class="role-btn active" id="ot-train" onclick="setOrderType('train')">Train Passenger / Pantry Coordinator</button>
-        <button class="role-btn" id="ot-stall" onclick="setOrderType('stall')">Stall Owner</button>
+      <div>
+        <div class="section-title">New Order</div>
+        <div class="section-sub">Select your items, fill in your details, and place your order.</div>
       </div>
     </div>
 
-    <div class="card mb-16" id="train-details-card">
-      <div class="card-header"><div class="card-title">Train & Passenger Details</div></div>
-      <div class="form-row">
-        <div class="form-group"><label>Passenger Name</label>
-          <input type="text" id="po-name" placeholder="Full name" value="${currentUser?.name || ''}"></div>
-        <div class="form-group"><label>Train Number</label>
-          <input type="text" id="po-trainno" placeholder="e.g. 12631" inputmode="numeric"></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label>Train Name</label>
-          <input type="text" id="po-trainname" placeholder="e.g. Nellai Express"></div>
-        <div class="form-group"><label>Current Location of Train</label>
-          <input type="text" id="po-location" placeholder="e.g. Madurai Jn"></div>
-      </div>
-      <div class="form-group"><label>Expected Arrival Time at Delivery Station</label>${etaHTML()}</div>
-    </div>
+    <div class="order-layout">
+      <!-- Left Column: Products Catalog -->
+      <div class="catalog-section">
+        <!-- Hero Banner -->
+        <div class="hero-banner">
+          <h1>Pantry & Stall Delivery</h1>
+          <p>Order fresh meals, snacks, and beverages delivered directly to your train seat or station stall.</p>
+        </div>
 
-    <div class="card mb-16 hidden" id="stall-details-card">
-      <div class="card-header"><div class="card-title">Stall Details</div></div>
-      <div class="form-group"><label>Name of the Ordering Person</label>
-        <input type="text" id="po-stallperson" placeholder="Full name" value="${currentUser?.name || ''}"></div>
-      <div class="form-group"><label>Name of the Stall</label>
-        <input type="text" id="po-stallname" placeholder="e.g. Sharma Tea Stall"></div>
-      <div class="form-group"><label>Stall Location <span class="muted">(optional)</span></label>
-        <input type="text" id="po-stalllocation" placeholder="e.g. Platform 2, near entrance"></div>
-    </div>
+        <!-- Catalog Container -->
+        <div class="card mb-16" style="padding: 24px;">
+          <div class="card-header" style="margin-bottom: 16px;">
+            <div>
+              <div class="card-title">Select Items</div>
+              <div class="card-subtitle">Choose from our available items below</div>
+            </div>
+          </div>
+          <div class="search-wrap">
+            <input type="text" id="product-search" placeholder="Search snacks, drinks, ice creams..." oninput="buildProductGrid(this.value)">
+          </div>
+          <div class="product-grid" id="product-grid"></div>
+        </div>
+      </div>
 
-    <div class="card mb-16">
-      <div class="card-header"><div class="card-title">Select Items</div>
-        <div class="card-subtitle">Tap an item to add it to your order</div></div>
-      <div class="form-group">
-        <input type="text" id="product-search" placeholder="Search products… (e.g. 'lays', 'water', 'ice cream')"
-          oninput="buildProductGrid(this.value)">
+      <!-- Right Column: Order Details & Checkout -->
+      <div class="checkout-section">
+        <!-- Order Type / Delivery Option -->
+        <div class="card mb-16" style="padding: 24px;">
+          <div class="card-header" style="margin-bottom: 12px;">
+            <div class="card-title">Delivery Option</div>
+          </div>
+          <div class="role-selector" style="margin-bottom: 0;">
+            <button class="role-btn active" id="ot-train" onclick="setOrderType('train')">Train Passenger</button>
+            <button class="role-btn" id="ot-stall" onclick="setOrderType('stall')">Stall Owner</button>
+          </div>
+        </div>
+
+        <!-- Passenger Details Form -->
+        <div class="card mb-16" id="train-details-card" style="padding: 24px;">
+          <div class="card-header" style="margin-bottom: 12px;">
+            <div class="card-title">Passenger Details</div>
+          </div>
+          <div class="form-group">
+            <label>Passenger Name</label>
+            <input type="text" id="po-name" placeholder="Full name" value="${currentUser?.name || ''}">
+          </div>
+          <div class="form-group">
+            <label>Train Number</label>
+            <input type="text" id="po-trainno" placeholder="e.g. 12631" inputmode="numeric">
+          </div>
+          <div class="form-group">
+            <label>Train Name</label>
+            <input type="text" id="po-trainname" placeholder="e.g. Nellai Express">
+          </div>
+          <div class="form-group">
+            <label>Current Location of Train</label>
+            <input type="text" id="po-location" placeholder="e.g. Madurai Jn">
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label>Expected Arrival Time</label>
+            ${etaHTML()}
+          </div>
+        </div>
+
+        <!-- Stall Details Form -->
+        <div class="card mb-16 hidden" id="stall-details-card" style="padding: 24px;">
+          <div class="card-header" style="margin-bottom: 12px;">
+            <div class="card-title">Stall Details</div>
+          </div>
+          <div class="form-group">
+            <label>Ordering Person Name</label>
+            <input type="text" id="po-stallperson" placeholder="Full name" value="${currentUser?.name || ''}">
+          </div>
+          <div class="form-group">
+            <label>Name of the Stall</label>
+            <input type="text" id="po-stallname" placeholder="e.g. Sharma Tea Stall">
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label>Stall Location (Platform No / Area)</label>
+            <input type="text" id="po-stalllocation" placeholder="e.g. Platform 2, near middle staircase">
+          </div>
+        </div>
+
+        <!-- Order Summary & Action -->
+        <div class="card" id="summary-card" style="padding: 24px; position: sticky; top: 84px;">
+          <div class="card-header" style="margin-bottom: 12px;">
+            <div class="card-title">Order Summary</div>
+          </div>
+          <div id="summary-body">
+            <p class="muted small" style="text-align: center; padding: 12px 0;">No items selected yet.</p>
+          </div>
+          <div class="divider"></div>
+          <div class="flex jc-sb" style="font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 16px;" id="total-row">
+            <span>Total</span><span>₹0</span>
+          </div>
+          <button class="btn btn-primary btn-full" id="submit-btn" onclick="submitOrder()">Place Order</button>
+        </div>
       </div>
-      <div class="product-grid" id="product-grid"></div>
-    </div>
-    <div class="card" id="summary-card">
-      <div class="card-header"><div class="card-title">Order Summary</div></div>
-      <div id="summary-body"><p class="muted small">No items selected yet.</p></div>
-      <div class="divider"></div>
-      <div class="flex jc-sb" style="font-size:16px;font-weight:700" id="total-row">
-        <span>Total</span><span>₹0</span>
-      </div>
-      <button class="btn btn-primary btn-full mt-16" id="submit-btn" onclick="submitOrder()">Place Order</button>
     </div>`;
   buildProductGrid();
   updateMobileOrderBar(0, 0);
