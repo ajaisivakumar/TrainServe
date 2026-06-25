@@ -313,40 +313,65 @@ textarea { resize: vertical; min-height: 64px; }
 .auth-brand-full { font-size: 22px; font-weight: 800; color: var(--text); letter-spacing: 4px; margin-top: 6px; }
 .auth-brand-desc { font-size: 14.5px; color: var(--text-2); margin-top: 24px; line-height: 1.7; max-width: 320px; }
 .auth-form-panel { flex: 1; min-width: 0; background: var(--surface); padding: 40px; overflow-y: auto; display: flex; align-items: center; }
+
+
+
+
+  
 @media (max-width: 720px) {
   .auth-shell { flex-direction: column; max-width: 420px; min-height: auto; }
   .auth-brand-panel { padding: 32px 24px; }
   .auth-brand-kb { font-size: 40px; }
+  .auth-form-panel { padding: 32px 24px; } /* Kept default padding */
   
-  /* Pushes form contents down (changed top padding from 32px to 56px) */
-  .auth-form-panel { padding: 56px 24px 32px; }
-  
-  /* Shunts the close button closer to the corner on mobile screens */
+  /* Make the close button white on mobile to contrast with the blue panel */
   .auth-close-btn {
-    top: 12px !important;
-    right: 12px !important;
-    padding: 6px !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    top: 16px !important;
+    right: 16px !important;
+  }
+  .auth-close-btn:hover {
+    color: #FFFFFF !important;
   }
 }
 
+/* Updated shell style to allow positioning relative to it */
+.auth-shell { 
+  position: relative; 
+  display: flex; 
+  width: 100%; 
+  max-width: 920px;
+  min-height: 520px; 
+  border-radius: var(--radius);
+  overflow: hidden; 
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+}
+
 .auth-box { width: 100%; max-width: 100%; }
+
+/* Positioned at the top right of the entire shell card */
 .auth-close-btn {
   position: absolute;
   top: 20px;
   right: 20px;
   background: none;
   border: none;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
-  color: var(--text-muted);
+  color: var(--text-muted); /* Dark slate on desktop */
   cursor: pointer;
-  z-index: 10;
-  transition: color 0.15s ease;
+  z-index: 100;
+  transition: all 0.15s ease;
   padding: 8px;
 }
 .auth-close-btn:hover {
   color: var(--text);
+  transform: scale(1.1);
 }
+
+
+
 
 .role-selector { display: flex; gap: 8px; margin-bottom: 20px; }
 .role-btn {
@@ -1529,14 +1554,16 @@ input:focus, select:focus, textarea:focus {
 <!-- AUTH PAGE -->
 <div id="auth-page" class="hidden">
   <div class="auth-shell">
+    <!-- Move close button here -->
+    <button onclick="document.getElementById('app').classList.remove('hidden');document.getElementById('auth-page').classList.add('hidden');window.location.hash='';return false;" class="auth-close-btn" aria-label="Close">✕</button>
+    
     <div class="auth-brand-panel">
       <div class="auth-brand-kb">KB</div>
       <div class="auth-brand-full">ENTERPRISES</div>
       <p class="auth-brand-desc">Railway pantry &amp; stall order management — serving passengers, crew, and pantry coordinators across the network.</p>
     </div>
-    <div class="auth-form-panel" style="position: relative;">
-      <button onclick="document.getElementById('app').classList.remove('hidden');document.getElementById('auth-page').classList.add('hidden');window.location.hash='';return false;" class="auth-close-btn" aria-label="Close">✕</button>
-  <div class="auth-box">
+    <div class="auth-form-panel">
+      <div class="auth-box">
 
     <div class="role-selector" id="role-selector">
       <button class="role-btn active" onclick="setRole('user')">Passenger / Pantry</button>
