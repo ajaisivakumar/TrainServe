@@ -2145,7 +2145,7 @@ function buildNav() {
   });
 }
 
-const PUBLIC_PAGES = ['place-order'];
+const PUBLIC_PAGES = ['home', 'place-order'];
 function navigateTo(page) {
   if (!currentUser?.token && !PUBLIC_PAGES.includes(page)) {
     showAuthPage('user');
