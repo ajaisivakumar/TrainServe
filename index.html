@@ -586,6 +586,182 @@ textarea { resize: vertical; min-height: 64px; }
   }
 }
 
+
+
+/* ─── Premium Landing Page Styles ─── */
+.landing-hero {
+  background: linear-gradient(135deg, #1E3A8A 0%, #1E40AF 50%, #2563EB 100%);
+  border-radius: 20px;
+  padding: 60px 40px;
+  color: #FFFFFF;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 40px;
+  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.15);
+  display: flex;
+  align-items: center;
+}
+
+.landing-hero::before {
+  content: '';
+  position: absolute;
+  top: -100px; right: -100px;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 80%);
+  border-radius: 50%;
+}
+
+.landing-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 600px;
+}
+
+.landing-hero h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 38px;
+  font-weight: 900;
+  line-height: 1.15;
+  margin-bottom: 16px;
+  letter-spacing: -0.5px;
+  color: #FFFFFF;
+}
+
+.landing-hero p {
+  font-size: 15px;
+  line-height: 1.6;
+  opacity: 0.9;
+  margin-bottom: 28px;
+}
+
+.landing-cta-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.landing-cta-row .btn {
+  min-height: 48px;
+  padding: 0 28px;
+  border-radius: 12px;
+}
+
+.landing-section-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  font-family: 'Outfit', sans-serif;
+  color: var(--text);
+  margin-top: 20px;
+}
+
+.landing-section-sub {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 32px;
+}
+
+.landing-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.landing-step-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 24px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.landing-step-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+}
+
+.landing-step-icon {
+  font-size: 32px;
+  margin-bottom: 16px;
+  display: inline-block;
+  background: #EFF6FF;
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  border-radius: 50%;
+  text-align: center;
+}
+
+.landing-step-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.landing-step-card p {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.landing-portals {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.landing-portal-card {
+  background: linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.landing-portal-card h3 {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+}
+
+.landing-portal-card p {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .landing-hero {
+    padding: 40px 24px;
+  }
+  .landing-hero h1 {
+    font-size: 28px;
+  }
+  .landing-steps-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .landing-portals {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+
+  
+
   
 
 /* ─── Product grid ─── */
@@ -1810,6 +1986,7 @@ async function logout() {
    APP SHELL
 ════════════════════════════════════════════════════════ */
 const ICONS = {
+  home:    `<svg viewBox="0 0 24 24" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
   order:   `<svg viewBox="0 0 24 24" stroke-width="1.8"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>`,
   plus:    `<svg viewBox="0 0 24 24" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>`,
   bell:    `<svg viewBox="0 0 24 24" stroke-width="1.8"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>`,
@@ -1824,6 +2001,7 @@ const ICONS = {
 
 const NAV = {
   guest: [
+  { id:'home', label:'Home', icon:'home' },
   { id:'place-order', label:'Browse & Order', icon:'plus' },
   ],
   user:  [
@@ -1893,7 +2071,7 @@ function launchGuestApp() {
     <button class="btn btn-outline btn-sm" onclick="showAuthPage('user')">Sign In</button>`;
   currentRole = 'guest';
   buildGuestNav();
-  setTimeout(() => navigateTo('place-order'), 0);
+  setTimeout(() => navigateTo('home'), 0); // Open Home landing page by default
 }
 
 function buildGuestNav() {
@@ -1901,17 +2079,19 @@ function buildGuestNav() {
   const mn = document.getElementById('mob-nav');
   sb.innerHTML = ''; mn.innerHTML = '';
   NAV.guest.forEach(it => {
-    sb.innerHTML += `<div class="sidebar-item active" id="si-${it.id}" onclick="navigateTo('${it.id}')">
+    sb.innerHTML += `<div class="sidebar-item" id="si-${it.id}" onclick="navigateTo('${it.id}')">
       <span class="icon">${ICONS[it.icon]}</span> ${it.label}
     </div>`;
   });
   sb.innerHTML += `<div class="sidebar-footer">
     <button class="btn btn-primary btn-full btn-sm" onclick="showAuthPage('user')">Sign In</button>
-
   </div>`;
   mn.innerHTML = `
-    <div class="mob-nav-item active" id="mi-place-order" onclick="navigateTo('place-order')">
-      <span class="icon">${ICONS.plus}</span>Browse
+    <div class="mob-nav-item" id="mi-home" onclick="navigateTo('home')">
+      <span class="icon">${ICONS.home}</span>Home
+    </div>
+    <div class="mob-nav-item" id="mi-place-order" onclick="navigateTo('place-order')">
+      <span class="icon">${ICONS.plus}</span>Order
     </div>
     <div class="mob-nav-item" onclick="showAuthPage('user')">
       <span class="icon">${ICONS.users}</span>Sign In
@@ -1980,6 +2160,7 @@ function navigateTo(page) {
   const mc = document.getElementById('main-content');
   mc.innerHTML = '<div class="loading-shell"><div class="skeleton skeleton-card"></div><div class="skeleton skeleton-card"></div></div>';
   ({
+    'home': renderHome,
     'place-order':    renderPlaceOrder,
     'my-orders':      renderMyOrders,
     'notifications':  renderNotifications,
@@ -2341,6 +2522,63 @@ function renderPlaceOrder(el) {
   updateMobileOrderBar(0, 0);
 }
 
+
+function renderHome(el) {
+  el.innerHTML = `
+    <div class="landing-hero">
+      <div class="landing-hero-content">
+        <span class="badge badge-accepted" style="background: rgba(255, 255, 255, 0.2); color: #FFFFFF; font-size: 11px; margin-bottom: 12px; display: inline-flex;">🚆 Network-Wide Rail Delivery</span>
+        <h1>Delicious Meals, Delivered to Your Train Seat</h1>
+        <p>Skip the station platform rush. Browse our pantry and stall menus, place your order, and our crew will deliver it directly to your coach in minutes.</p>
+        <div class="landing-cta-row">
+          <button class="btn btn-primary" onclick="navigateTo('place-order')">Browse Menu & Order Now</button>
+          <button class="btn btn-outline" onclick="showAuthPage('user')" style="background:transparent; color:#fff; border-color:rgba(255,255,255,0.4)">Portal Sign In</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="landing-section-title">How It Works</div>
+    <div class="landing-section-sub">Get your favorite snacks in 3 simple steps</div>
+
+    <div class="landing-steps-grid">
+      <div class="landing-step-card">
+        <div class="landing-step-icon">🍔</div>
+        <h3>1. Select Your Food</h3>
+        <p>Browse snacks, drinks, water bottles, and ice creams. Add your items to the shopping cart.</p>
+      </div>
+      <div class="landing-step-card">
+        <div class="landing-step-icon">📋</div>
+        <h3>2. Enter Seat & Train</h3>
+        <p>Provide your name, train number, seat/coach info, and your expected arrival station.</p>
+      </div>
+      <div class="landing-step-card">
+        <div class="landing-step-icon">⚡</div>
+        <h3>3. Direct Delivery</h3>
+        <p>Our onboard crew will meet your train at the platform and deliver it straight to your seat.</p>
+      </div>
+    </div>
+
+    <div class="landing-portals">
+      <div class="landing-portal-card">
+        <div>
+          <h3>Passenger Ordering Menu</h3>
+          <p>Hungry on your journey? Click below to view the catalog of available snacks, water bottles, beverages, and ice creams.</p>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="navigateTo('place-order')" style="align-self: flex-start; margin-top: 12px;">Order Now</button>
+      </div>
+      
+      <div class="landing-portal-card">
+        <div>
+          <h3>Station Stall & Crew Portal</h3>
+          <p>Are you a delivery crew member checking active deliveries, or a stall owner managing inventory and staff?</p>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="showAuthPage('user')" style="align-self: flex-start; margin-top: 12px;">Portal Login</button>
+      </div>
+    </div>
+  `;
+}
+
+  
 function setOrderType(type) {
   orderType = type;
   document.getElementById('ot-train').classList.toggle('active', type === 'train');
