@@ -13,9 +13,10 @@
 </script>
 
 <meta charset="UTF-8">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚆</text></svg>">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>KB ENTERPRISES — Order Management</title>
+
+<link rel="preload" as="image" href="assets/products/LOGGIN-BACKGROUND.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -293,7 +294,8 @@ textarea { resize: vertical; min-height: 64px; }
   min-height: 100vh; display: flex; align-items: center; justify-content: center;
   padding: 24px;
   background: var(--bg);
-  background-image: linear-gradient(135deg, rgba(248,250,252,0.92) 0%, rgba(241,245,249,0.85) 100%);
+  background-image: linear-gradient(135deg, rgba(248,250,252,0.92) 0%, rgba(241,245,249,0.85) 100%),
+    url('assets/products/LOGGIN-BACKGROUND.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -314,65 +316,31 @@ textarea { resize: vertical; min-height: 64px; }
 .auth-brand-full { font-size: 22px; font-weight: 800; color: var(--text); letter-spacing: 4px; margin-top: 6px; }
 .auth-brand-desc { font-size: 14.5px; color: var(--text-2); margin-top: 24px; line-height: 1.7; max-width: 320px; }
 .auth-form-panel { flex: 1; min-width: 0; background: var(--surface); padding: 40px; overflow-y: auto; display: flex; align-items: center; }
-
-
-
-
-  
 @media (max-width: 720px) {
   .auth-shell { flex-direction: column; max-width: 420px; min-height: auto; }
   .auth-brand-panel { padding: 32px 24px; }
   .auth-brand-kb { font-size: 40px; }
-  .auth-form-panel { padding: 32px 24px; } /* Kept default padding */
-  
-  /* Make the close button white on mobile to contrast with the blue panel */
-  .auth-close-btn {
-    color: rgba(255, 255, 255, 0.8) !important;
-    top: 16px !important;
-    right: 16px !important;
-  }
-  .auth-close-btn:hover {
-    color: #FFFFFF !important;
-  }
-}
-
-/* Updated shell style to allow positioning relative to it */
-.auth-shell { 
-  position: relative; 
-  display: flex; 
-  width: 100%; 
-  max-width: 920px;
-  min-height: 520px; 
-  border-radius: var(--radius);
-  overflow: hidden; 
-  box-shadow: var(--shadow-lg);
-  border: 1px solid var(--border);
+  .auth-form-panel { padding: 32px 24px; }
 }
 
 .auth-box { width: 100%; max-width: 100%; }
-
-/* Positioned at the top right of the entire shell card */
 .auth-close-btn {
   position: absolute;
   top: 20px;
   right: 20px;
   background: none;
   border: none;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: bold;
-  color: var(--text-muted); /* Dark slate on desktop */
+  color: var(--text-muted);
   cursor: pointer;
-  z-index: 100;
-  transition: all 0.15s ease;
+  z-index: 10;
+  transition: color 0.15s ease;
   padding: 8px;
 }
 .auth-close-btn:hover {
   color: var(--text);
-  transform: scale(1.1);
 }
-
-
-
 
 .role-selector { display: flex; gap: 8px; margin-bottom: 20px; }
 .role-btn {
@@ -539,265 +507,6 @@ textarea { resize: vertical; min-height: 64px; }
 }
 .clock-num:hover { background: var(--border); }
 .clock-num.active { background: var(--accent); color: var(--accent-fg); }
-
-
-
-
-
-
-
-
-  /* ─── Two-Column Order Layout & Hero Banner ─── */
-.order-layout {
-  display: grid;
-  grid-template-columns: 1fr 360px;
-  gap: 24px;
-  align-items: start;
-  width: 100%;
-}
-
-.hero-banner {
-  background: linear-gradient(135deg, #1E3A8A 0%, #2563EB 60%, #3B82F6 100%);
-  border-radius: 16px;
-  padding: 28px 24px;
-  color: #FFFFFF;
-  margin-bottom: 20px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.15);
-}
-
-.hero-banner::before {
-  content: '';
-  position: absolute;
-  top: -40px; right: -40px;
-  width: 160px; height: 160px;
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 50%;
-}
-
-.hero-banner h1 {
-  font-family: 'Outfit', 'Inter', sans-serif;
-  font-size: 24px;
-  font-weight: 800;
-  margin-bottom: 8px;
-  color: #FFFFFF;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.hero-banner p {
-  font-size: 13px;
-  opacity: 0.9;
-  line-height: 1.6;
-  max-width: 480px;
-}
-
-.search-wrap {
-  position: relative;
-  margin-bottom: 20px;
-  width: 100%;
-}
-
-.search-wrap input {
-  padding-left: 40px;
-  height: 44px;
-  border-radius: 10px;
-}
-
-.search-wrap::before {
-  content: '🔍';
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 15px;
-  pointer-events: none;
-}
-
-@media (max-width: 990px) {
-  .order-layout {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-}
-
-
-
-/* ─── Premium Landing Page Styles ─── */
-.landing-hero {
-  background: linear-gradient(135deg, #1E3A8A 0%, #1E40AF 50%, #2563EB 100%);
-  border-radius: 20px;
-  padding: 60px 40px;
-  color: #FFFFFF;
-  position: relative;
-  overflow: hidden;
-  margin-bottom: 40px;
-  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.15);
-  display: flex;
-  align-items: center;
-}
-
-.landing-hero::before {
-  content: '';
-  position: absolute;
-  top: -100px; right: -100px;
-  width: 300px; height: 300px;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 80%);
-  border-radius: 50%;
-}
-
-.landing-hero-content {
-  position: relative;
-  z-index: 2;
-  max-width: 600px;
-}
-
-.landing-hero h1 {
-  font-family: 'Outfit', sans-serif;
-  font-size: 38px;
-  font-weight: 900;
-  line-height: 1.15;
-  margin-bottom: 16px;
-  letter-spacing: -0.5px;
-  color: #FFFFFF;
-}
-
-.landing-hero p {
-  font-size: 15px;
-  line-height: 1.6;
-  opacity: 0.9;
-  margin-bottom: 28px;
-}
-
-.landing-cta-row {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.landing-cta-row .btn {
-  min-height: 48px;
-  padding: 0 28px;
-  border-radius: 12px;
-}
-
-.landing-section-title {
-  text-align: center;
-  font-size: 24px;
-  font-weight: 800;
-  margin-bottom: 8px;
-  font-family: 'Outfit', sans-serif;
-  color: var(--text);
-  margin-top: 20px;
-}
-
-.landing-section-sub {
-  text-align: center;
-  color: var(--text-muted);
-  font-size: 14px;
-  margin-bottom: 32px;
-}
-
-.landing-steps-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  margin-bottom: 48px;
-}
-
-.landing-step-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 28px 24px;
-  text-align: center;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.landing-step-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow);
-}
-
-.landing-step-icon {
-  font-size: 32px;
-  margin-bottom: 16px;
-  display: inline-block;
-  background: #EFF6FF;
-  width: 60px;
-  height: 60px;
-  line-height: 60px;
-  border-radius: 50%;
-  text-align: center;
-}
-
-.landing-step-card h3 {
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 8px;
-  color: var(--text);
-}
-
-.landing-step-card p {
-  font-size: 13px;
-  color: var(--text-muted);
-  line-height: 1.5;
-}
-
-.landing-portals {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  margin-bottom: 40px;
-}
-
-.landing-portal-card {
-  background: linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 28px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.landing-portal-card h3 {
-  font-size: 18px;
-  font-weight: 800;
-  margin-bottom: 8px;
-  color: var(--text);
-  font-family: 'Outfit', sans-serif;
-}
-
-.landing-portal-card p {
-  font-size: 13.5px;
-  color: var(--text-muted);
-  line-height: 1.6;
-  margin-bottom: 20px;
-}
-
-@media (max-width: 768px) {
-  .landing-hero {
-    padding: 40px 24px;
-  }
-  .landing-hero h1 {
-    font-size: 28px;
-  }
-  .landing-steps-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  .landing-portals {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-}
-
-
-  
-
-  
 
 /* ─── Product grid ─── */
 .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
@@ -1555,16 +1264,14 @@ input:focus, select:focus, textarea:focus {
 <!-- AUTH PAGE -->
 <div id="auth-page" class="hidden">
   <div class="auth-shell">
-    <!-- Move close button here -->
-    <button onclick="document.getElementById('app').classList.remove('hidden');document.getElementById('auth-page').classList.add('hidden');window.location.hash='';return false;" class="auth-close-btn" aria-label="Close">✕</button>
-    
     <div class="auth-brand-panel">
       <div class="auth-brand-kb">KB</div>
       <div class="auth-brand-full">ENTERPRISES</div>
       <p class="auth-brand-desc">Railway pantry &amp; stall order management — serving passengers, crew, and pantry coordinators across the network.</p>
     </div>
-    <div class="auth-form-panel">
-      <div class="auth-box">
+    <div class="auth-form-panel" style="position: relative;">
+      <button onclick="document.getElementById('app').classList.remove('hidden');document.getElementById('auth-page').classList.add('hidden');window.location.hash='';return false;" class="auth-close-btn" aria-label="Close">✕</button>
+  <div class="auth-box">
 
     <div class="role-selector" id="role-selector">
       <button class="role-btn active" onclick="setRole('user')">Passenger / Pantry</button>
@@ -1794,49 +1501,48 @@ const BASE_PRODUCTS = [
   { id:'vanila', name:'Vanila Ice Cream', icon:'🍨', img:'assets/products/CAVINS-VANILA.jpg', price:40, unit:'Cup' }
 ];
 
+// Load admin-added products from localStorage and merge
+
+// Original hardcoded catalog — treated as the base list
+//const BASE_PRODUCTS = PRODUCTS; // PRODUCTS here is your original const array (rename it to BASE_PRODUCTS in its declaration, or keep as-is and reference it once before reassigning below)
 let PRODUCTS = [];
 
-// Fallback logic in case backend is offline/unreachable
-function rebuildProductsFromLocalStorage() {
+function rebuildProducts() {
   const customs    = JSON.parse(lsGet('custom_products') || '[]');
   const overrides  = JSON.parse(lsGet('product_overrides') || '{}');
+
   let merged = [...BASE_PRODUCTS, ...customs].map(p => ({ ...p, inStock: true }));
+
   merged = merged
     .map(p => overrides[p.id] ? { ...p, ...overrides[p.id] } : p)
     .filter(p => !p.deleted);
+
   PRODUCTS = merged;
 }
 
-// Dynamically fetch and sync products catalog + stock status from your Render DB
-async function fetchProducts() {
-  if (!API) {
-    rebuildProductsFromLocalStorage();
-    return;
-  }
-  try {
-    const data = await apiFetch('/products');
-    PRODUCTS = data.map(p => ({
-      id: p.id,
-      name: p.name,
-      icon: p.icon,
-      img: p.img,
-      price: parseFloat(p.price),
-      unit: p.unit,
-      inStock: p.in_stock !== false,
-      casePrice: p.case_price ? parseFloat(p.case_price) : null,
-      piecesPerCase: p.pieces_per_case ? parseInt(p.pieces_per_case, 10) : null
-    }));
-  } catch (err) {
-    console.error('Error fetching products catalog from database:', err);
-    // Offline / unreachable fallback
-    rebuildProductsFromLocalStorage();
-  }
+function saveCustomProduct(product) {
+  const customs = JSON.parse(lsGet('custom_products') || '[]');
+  customs.push(product);
+  lsSet('custom_products', JSON.stringify(customs));
+  rebuildProducts();
 }
 
-// Initial fallback load
-rebuildProductsFromLocalStorage();
+function saveOverride(id, changes) {
+  const overrides = JSON.parse(lsGet('product_overrides') || '{}');
+  overrides[id] = { ...(overrides[id]||{}), ...changes };
+  lsSet('product_overrides', JSON.stringify(overrides));
 
-  
+  // If it's a custom product (not base), update it directly in the customs array too
+  const customs = JSON.parse(lsGet('custom_products') || '[]');
+  const idx = customs.findIndex(c => c.id === id);
+  if (idx !== -1) {
+    customs[idx] = { ...customs[idx], ...changes };
+    lsSet('custom_products', JSON.stringify(customs));
+  }
+  rebuildProducts();
+}
+
+rebuildProducts();
 
 const REMINDER_STEPS = [
   { step:'Step 1 of 3', title:'Are all items packed?',          body:'Verify every item in this order is packed and ready.' },
@@ -2023,7 +1729,6 @@ async function logout() {
    APP SHELL
 ════════════════════════════════════════════════════════ */
 const ICONS = {
-  home:    `<svg viewBox="0 0 24 24" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
   order:   `<svg viewBox="0 0 24 24" stroke-width="1.8"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>`,
   plus:    `<svg viewBox="0 0 24 24" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>`,
   bell:    `<svg viewBox="0 0 24 24" stroke-width="1.8"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>`,
@@ -2038,7 +1743,6 @@ const ICONS = {
 
 const NAV = {
   guest: [
-  { id:'home', label:'Home', icon:'home' },
   { id:'place-order', label:'Browse & Order', icon:'plus' },
   ],
   user:  [
@@ -2080,7 +1784,6 @@ const MOBILE_NAV = {
 // everyone else lands on the public guest homepage.
 // /#admin (or /admin/ on GitHub Pages, see note below) opens the admin login directly.
 (async function boot() {
-  await fetchProducts(); // Load products and stock status from Render database first
   if (currentUser?.token) {
     await loadCrew();
     launchApp();
@@ -2093,7 +1796,6 @@ const MOBILE_NAV = {
   launchGuestApp();
 })();
 
-  
 window.addEventListener('hashchange', () => {
   if (!currentUser && window.location.hash === '#admin') showAuthPage('admin');
 });
@@ -2108,7 +1810,7 @@ function launchGuestApp() {
     <button class="btn btn-outline btn-sm" onclick="showAuthPage('user')">Sign In</button>`;
   currentRole = 'guest';
   buildGuestNav();
-  setTimeout(() => navigateTo('home'), 0); // Open Home landing page by default
+  setTimeout(() => navigateTo('place-order'), 0);
 }
 
 function buildGuestNav() {
@@ -2116,19 +1818,17 @@ function buildGuestNav() {
   const mn = document.getElementById('mob-nav');
   sb.innerHTML = ''; mn.innerHTML = '';
   NAV.guest.forEach(it => {
-    sb.innerHTML += `<div class="sidebar-item" id="si-${it.id}" onclick="navigateTo('${it.id}')">
+    sb.innerHTML += `<div class="sidebar-item active" id="si-${it.id}" onclick="navigateTo('${it.id}')">
       <span class="icon">${ICONS[it.icon]}</span> ${it.label}
     </div>`;
   });
   sb.innerHTML += `<div class="sidebar-footer">
     <button class="btn btn-primary btn-full btn-sm" onclick="showAuthPage('user')">Sign In</button>
+
   </div>`;
   mn.innerHTML = `
-    <div class="mob-nav-item" id="mi-home" onclick="navigateTo('home')">
-      <span class="icon">${ICONS.home}</span>Home
-    </div>
-    <div class="mob-nav-item" id="mi-place-order" onclick="navigateTo('place-order')">
-      <span class="icon">${ICONS.plus}</span>Order
+    <div class="mob-nav-item active" id="mi-place-order" onclick="navigateTo('place-order')">
+      <span class="icon">${ICONS.plus}</span>Browse
     </div>
     <div class="mob-nav-item" onclick="showAuthPage('user')">
       <span class="icon">${ICONS.users}</span>Sign In
@@ -2182,7 +1882,7 @@ function buildNav() {
   });
 }
 
-const PUBLIC_PAGES = ['home', 'place-order'];
+const PUBLIC_PAGES = ['place-order'];
 function navigateTo(page) {
   if (!currentUser?.token && !PUBLIC_PAGES.includes(page)) {
     showAuthPage('user');
@@ -2197,7 +1897,6 @@ function navigateTo(page) {
   const mc = document.getElementById('main-content');
   mc.innerHTML = '<div class="loading-shell"><div class="skeleton skeleton-card"></div><div class="skeleton skeleton-card"></div></div>';
   ({
-    'home': renderHome,
     'place-order':    renderPlaceOrder,
     'my-orders':      renderMyOrders,
     'notifications':  renderNotifications,
@@ -2370,7 +2069,7 @@ function updateApPreview() {
   preview.innerHTML = `Per-unit price: <strong style="color:var(--text)">₹${perUnit}</strong> &nbsp;(₹${caseprice} ÷ ${pieces} pcs)`;
 }
 
-async function submitProductForm(existingId) {
+function submitProductForm(existingId) {
   const name      = document.getElementById('ap-name').value.trim();
   const caseprice = parseFloat(document.getElementById('ap-caseprice').value);
   const pieces    = parseInt(document.getElementById('ap-pieces').value);
@@ -2383,63 +2082,35 @@ async function submitProductForm(existingId) {
 
   const perUnit = Math.round((caseprice / pieces) * 100) / 100;
 
-  try {
-    if (existingId) {
-      await apiFetch('/products/' + existingId, {
-        method: 'PUT',
-        body: JSON.stringify({ name, price: perUnit, casePrice: caseprice, piecesPerCase: pieces, img })
-      });
-      toast('Product updated.', 'ok');
-    } else {
-      const newProduct = {
-        id: 'custom-' + Date.now(),
-        name, icon: '📦', img,
-        price: perUnit, unit: 'Piece',
-        casePrice: caseprice, piecesPerCase: pieces,
-      };
-      await apiFetch('/products', {
-        method: 'POST',
-        body: JSON.stringify(newProduct)
-      });
-      toast(`${name} added — ₹${perUnit}/piece`, 'ok');
-    }
-    closeModal();
-    await fetchProducts(); // Refresh catalog state
-    navigateTo('add-product'); // Redraw the product list view
-  } catch (err) {
-    console.error(err);
-    toast(err.message, 'err');
+  if (existingId) {
+    saveOverride(existingId, { name, price: perUnit, casePrice: caseprice, piecesPerCase: pieces, img, imageUrl: img });
+    toast('Product updated.', 'ok');
+  } else {
+    const newProduct = {
+      id: 'custom-' + Date.now(),
+      name, icon: '📦', img, imageUrl: img,
+      price: perUnit, unit: 'Piece',
+      casePrice: caseprice, piecesPerCase: pieces,
+    };
+    saveCustomProduct(newProduct);
+    toast(`${name} added — ₹${perUnit}/piece`, 'ok');
   }
+
+  closeModal();
+  navigateTo('add-product');
 }
 
-async function toggleStock(id, makeInStock) {
-  try {
-    await apiFetch('/products/' + id + '/stock', {
-      method: 'PATCH',
-      body: JSON.stringify({ inStock: makeInStock })
-    });
-    toast(makeInStock ? 'Marked in stock.' : 'Marked out of stock.', 'ok');
-    await fetchProducts(); // Refresh catalog state
-    navigateTo('add-product'); // Redraw view
-  } catch (err) {
-    console.error(err);
-    toast(err.message, 'err');
-  }
+function toggleStock(id, makeInStock) {
+  saveOverride(id, { inStock: makeInStock });
+  toast(makeInStock ? 'Marked in stock.' : 'Marked out of stock.', 'ok');
+  navigateTo('add-product');
 }
 
-async function deleteProduct(id) {
+function deleteProduct(id) {
   if (!confirm('Remove this product permanently?')) return;
-  try {
-    await apiFetch('/products/' + id, {
-      method: 'DELETE'
-    });
-    toast('Product removed.', 'ok');
-    await fetchProducts(); // Refresh catalog state
-    navigateTo('add-product'); // Redraw view
-  } catch (err) {
-    console.error(err);
-    toast(err.message, 'err');
-  }
+  saveOverride(id, { deleted: true });
+  toast('Product removed.', 'ok');
+  navigateTo('add-product');
 }
 
 /* ════════════════════════════════════════════════════════
@@ -2450,171 +2121,67 @@ function renderPlaceOrder(el) {
   orderType = 'train';
   el.innerHTML = `
     <div class="page-header">
-      <div>
-        <div class="section-title">New Order</div>
-        <div class="section-sub">Select your items, fill in your details, and place your order.</div>
+      <div><div class="section-title">New Order</div>
+      <div class="section-sub">Tell us who's ordering, then select items below.</div></div>
+    </div>
+
+    <div class="card mb-16">
+      <div class="card-header"><div class="card-title">Who is placing this order?</div></div>
+      <div class="role-selector">
+        <button class="role-btn active" id="ot-train" onclick="setOrderType('train')">Train Passenger / Pantry Coordinator</button>
+        <button class="role-btn" id="ot-stall" onclick="setOrderType('stall')">Stall Owner</button>
       </div>
     </div>
 
-    <div class="order-layout">
-      <!-- Left Column: Products Catalog -->
-      <div class="catalog-section">
-        <!-- Hero Banner -->
-        <div class="hero-banner">
-          <h1>Pantry & Stall Delivery</h1>
-          <p>Order fresh meals, snacks, and beverages delivered directly to your train seat or station stall.</p>
-        </div>
-
-        <!-- Catalog Container -->
-        <div class="card mb-16" style="padding: 24px;">
-          <div class="card-header" style="margin-bottom: 16px;">
-            <div>
-              <div class="card-title">Select Items</div>
-              <div class="card-subtitle">Choose from our available items below</div>
-            </div>
-          </div>
-          <div class="search-wrap">
-            <input type="text" id="product-search" placeholder="Search snacks, drinks, ice creams..." oninput="buildProductGrid(this.value)">
-          </div>
-          <div class="product-grid" id="product-grid"></div>
-        </div>
+    <div class="card mb-16" id="train-details-card">
+      <div class="card-header"><div class="card-title">Train & Passenger Details</div></div>
+      <div class="form-row">
+        <div class="form-group"><label>Passenger Name</label>
+          <input type="text" id="po-name" placeholder="Full name" value="${currentUser?.name || ''}"></div>
+        <div class="form-group"><label>Train Number</label>
+          <input type="text" id="po-trainno" placeholder="e.g. 12631" inputmode="numeric"></div>
       </div>
-
-      <!-- Right Column: Order Details & Checkout -->
-      <div class="checkout-section">
-        <!-- Order Type / Delivery Option -->
-        <div class="card mb-16" style="padding: 24px;">
-          <div class="card-header" style="margin-bottom: 12px;">
-            <div class="card-title">Delivery Option</div>
-          </div>
-          <div class="role-selector" style="margin-bottom: 0;">
-            <button class="role-btn active" id="ot-train" onclick="setOrderType('train')">Train Passenger</button>
-            <button class="role-btn" id="ot-stall" onclick="setOrderType('stall')">Stall Owner</button>
-          </div>
-        </div>
-
-        <!-- Passenger Details Form -->
-        <div class="card mb-16" id="train-details-card" style="padding: 24px;">
-          <div class="card-header" style="margin-bottom: 12px;">
-            <div class="card-title">Passenger Details</div>
-          </div>
-          <div class="form-group">
-            <label>Passenger Name</label>
-            <input type="text" id="po-name" placeholder="Full name" value="${currentUser?.name || ''}">
-          </div>
-          <div class="form-group">
-            <label>Train Number</label>
-            <input type="text" id="po-trainno" placeholder="e.g. 12631" inputmode="numeric">
-          </div>
-          <div class="form-group">
-            <label>Train Name</label>
-            <input type="text" id="po-trainname" placeholder="e.g. Nellai Express">
-          </div>
-          <div class="form-group">
-            <label>Current Location of Train</label>
-            <input type="text" id="po-location" placeholder="e.g. Madurai Jn">
-          </div>
-          <div class="form-group" style="margin-bottom: 0;">
-            <label>Expected Arrival Time</label>
-            ${etaHTML()}
-          </div>
-        </div>
-
-        <!-- Stall Details Form -->
-        <div class="card mb-16 hidden" id="stall-details-card" style="padding: 24px;">
-          <div class="card-header" style="margin-bottom: 12px;">
-            <div class="card-title">Stall Details</div>
-          </div>
-          <div class="form-group">
-            <label>Ordering Person Name</label>
-            <input type="text" id="po-stallperson" placeholder="Full name" value="${currentUser?.name || ''}">
-          </div>
-          <div class="form-group">
-            <label>Name of the Stall</label>
-            <input type="text" id="po-stallname" placeholder="e.g. Sharma Tea Stall">
-          </div>
-          <div class="form-group" style="margin-bottom: 0;">
-            <label>Stall Location (Platform No / Area)</label>
-            <input type="text" id="po-stalllocation" placeholder="e.g. Platform 2, near middle staircase">
-          </div>
-        </div>
-
-        <!-- Order Summary & Action -->
-        <div class="card" id="summary-card" style="padding: 24px; position: sticky; top: 84px;">
-          <div class="card-header" style="margin-bottom: 12px;">
-            <div class="card-title">Order Summary</div>
-          </div>
-          <div id="summary-body">
-            <p class="muted small" style="text-align: center; padding: 12px 0;">No items selected yet.</p>
-          </div>
-          <div class="divider"></div>
-          <div class="flex jc-sb" style="font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 16px;" id="total-row">
-            <span>Total</span><span>₹0</span>
-          </div>
-          <button class="btn btn-primary btn-full" id="submit-btn" onclick="submitOrder()">Place Order</button>
-        </div>
+      <div class="form-row">
+        <div class="form-group"><label>Train Name</label>
+          <input type="text" id="po-trainname" placeholder="e.g. Nellai Express"></div>
+        <div class="form-group"><label>Current Location of Train</label>
+          <input type="text" id="po-location" placeholder="e.g. Madurai Jn"></div>
       </div>
+      <div class="form-group"><label>Expected Arrival Time at Delivery Station</label>${etaHTML()}</div>
+    </div>
+
+    <div class="card mb-16 hidden" id="stall-details-card">
+      <div class="card-header"><div class="card-title">Stall Details</div></div>
+      <div class="form-group"><label>Name of the Ordering Person</label>
+        <input type="text" id="po-stallperson" placeholder="Full name" value="${currentUser?.name || ''}"></div>
+      <div class="form-group"><label>Name of the Stall</label>
+        <input type="text" id="po-stallname" placeholder="e.g. Sharma Tea Stall"></div>
+      <div class="form-group"><label>Stall Location <span class="muted">(optional)</span></label>
+        <input type="text" id="po-stalllocation" placeholder="e.g. Platform 2, near entrance"></div>
+    </div>
+
+    <div class="card mb-16">
+      <div class="card-header"><div class="card-title">Select Items</div>
+        <div class="card-subtitle">Tap an item to add it to your order</div></div>
+      <div class="form-group">
+        <input type="text" id="product-search" placeholder="Search products… (e.g. 'lays', 'water', 'ice cream')"
+          oninput="buildProductGrid(this.value)">
+      </div>
+      <div class="product-grid" id="product-grid"></div>
+    </div>
+    <div class="card" id="summary-card">
+      <div class="card-header"><div class="card-title">Order Summary</div></div>
+      <div id="summary-body"><p class="muted small">No items selected yet.</p></div>
+      <div class="divider"></div>
+      <div class="flex jc-sb" style="font-size:16px;font-weight:700" id="total-row">
+        <span>Total</span><span>₹0</span>
+      </div>
+      <button class="btn btn-primary btn-full mt-16" id="submit-btn" onclick="submitOrder()">Place Order</button>
     </div>`;
   buildProductGrid();
   updateMobileOrderBar(0, 0);
 }
 
-
-function renderHome(el) {
-  el.innerHTML = `
-    <div class="landing-hero">
-      <div class="landing-hero-content">
-        <span class="badge badge-accepted" style="background: rgba(255, 255, 255, 0.2); color: #FFFFFF; font-size: 11px; margin-bottom: 12px; display: inline-flex;">📦 Bulk Logistics & Supply</span>
-        <h1>Bulk Supply Delivery for Pantry & Platform Stalls</h1>
-        <p>Streamline your inventory. Order water cases, beverages, snacks, and ice creams in bulk. Delivered directly to train pantry cars or station platform stalls across the railway network.</p>
-        <div class="landing-cta-row">
-          <button class="btn btn-primary" onclick="navigateTo('place-order')">Place Bulk Order</button>
-          <button class="btn btn-outline" onclick="showAuthPage('user')" style="background:transparent; color:#fff; border-color:rgba(255,255,255,0.4)">Portal Sign In</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="landing-section-title">How It Works</div>
-    <div class="landing-section-sub">Simple three-step supply ordering pipeline</div>
-
-    <div class="landing-steps-grid">
-      <div class="landing-step-card">
-        <div class="landing-step-icon">📦</div>
-        <h3>1. Select Bulk Products</h3>
-        <p>Browse our catalog of beverages, snacks, water cases, and ice cream packs. Specify the bulk quantities you need.</p>
-      </div>
-      <div class="landing-step-card">
-        <div class="landing-step-icon">📋</div>
-        <h3>2. Enter Supply Details</h3>
-        <p>Provide your details as a Train Pantry Coordinator (with train details) or Platform Stall Owner (with platform number).</p>
-      </div>
-      <div class="landing-step-card">
-        <div class="landing-step-icon">🚛</div>
-        <h3>3. Bulk Delivery</h3>
-        <p>Our network crew coordinates with the train schedule or stall location for a prompt, direct delivery of your supplies.</p>
-      </div>
-    </div>
-
-    <div class="landing-portals">
-      <div class="landing-portal-card">
-        <div>
-          <h3>Train Pantry Supplies</h3>
-          <p>Are you a Train Pantry Coordinator? Order bottled water, beverages, and snack packs in bulk for your onboard inventory.</p>
-        </div>
-        <button class="btn btn-primary btn-sm" onclick="navigateTo('place-order')" style="align-self: flex-start; margin-top: 12px;">Order Now</button>
-      </div>
-      
-      <div class="landing-portal-card">
-        <div>
-          <h3>Platform Stall Supplies</h3>
-          <p>Are you a station platform stall owner? Keep your inventory stocked with fresh supply batches delivered directly to your platform stall.</p>
-        </div>
-        <button class="btn btn-outline btn-sm" onclick="navigateTo('place-order')" style="align-self: flex-start; margin-top: 12px;">Order Supplies</button>
-      </div>
-    </div>
-  `;
-}
-  
 function setOrderType(type) {
   orderType = type;
   document.getElementById('ot-train').classList.toggle('active', type === 'train');
