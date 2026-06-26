@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -315,16 +316,12 @@ textarea { resize: vertical; min-height: 64px; }
 .auth-brand-desc { font-size: 14.5px; color: var(--text-2); margin-top: 24px; line-height: 1.7; max-width: 320px; }
 .auth-form-panel { flex: 1; min-width: 0; background: var(--surface); padding: 40px; overflow-y: auto; display: flex; align-items: center; }
 
-
-
-
-  
 @media (max-width: 720px) {
   .auth-shell { flex-direction: column; max-width: 420px; min-height: auto; }
   .auth-brand-panel { padding: 32px 24px; }
   .auth-brand-kb { font-size: 40px; }
   .auth-form-panel { padding: 32px 24px; } /* Kept default padding */
-  
+
   /* Make the close button white on mobile to contrast with the blue panel */
   .auth-close-btn {
     color: rgba(255, 255, 255, 0.8) !important;
@@ -337,14 +334,14 @@ textarea { resize: vertical; min-height: 64px; }
 }
 
 /* Updated shell style to allow positioning relative to it */
-.auth-shell { 
-  position: relative; 
-  display: flex; 
-  width: 100%; 
+.auth-shell {
+  position: relative;
+  display: flex;
+  width: 100%;
   max-width: 920px;
-  min-height: 520px; 
+  min-height: 520px;
   border-radius: var(--radius);
-  overflow: hidden; 
+  overflow: hidden;
   box-shadow: var(--shadow-lg);
   border: 1px solid var(--border);
 }
@@ -370,9 +367,6 @@ textarea { resize: vertical; min-height: 64px; }
   color: var(--text);
   transform: scale(1.1);
 }
-
-
-
 
 .role-selector { display: flex; gap: 8px; margin-bottom: 20px; }
 .role-btn {
@@ -540,13 +534,6 @@ textarea { resize: vertical; min-height: 64px; }
 .clock-num:hover { background: var(--border); }
 .clock-num.active { background: var(--accent); color: var(--accent-fg); }
 
-
-
-
-
-
-
-
   /* ─── Two-Column Order Layout & Hero Banner ─── */
 .order-layout {
   display: grid;
@@ -620,8 +607,6 @@ textarea { resize: vertical; min-height: 64px; }
     gap: 16px;
   }
 }
-
-
 
 /* ─── Premium Landing Page Styles ─── */
 .landing-hero {
@@ -793,11 +778,6 @@ textarea { resize: vertical; min-height: 64px; }
     gap: 16px;
   }
 }
-
-
-  
-
-  
 
 /* ─── Product grid ─── */
 .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
@@ -1557,7 +1537,7 @@ input:focus, select:focus, textarea:focus {
   <div class="auth-shell">
     <!-- Move close button here -->
     <button onclick="document.getElementById('app').classList.remove('hidden');document.getElementById('auth-page').classList.add('hidden');window.location.hash='';return false;" class="auth-close-btn" aria-label="Close">✕</button>
-    
+
     <div class="auth-brand-panel">
       <div class="auth-brand-kb">KB</div>
       <div class="auth-brand-full">ENTERPRISES</div>
@@ -1836,8 +1816,6 @@ async function fetchProducts() {
 // Initial fallback load
 rebuildProductsFromLocalStorage();
 
-  
-
 const REMINDER_STEPS = [
   { step:'Step 1 of 3', title:'Are all items packed?',          body:'Verify every item in this order is packed and ready.' },
   { step:'Step 2 of 3', title:'Ready for delivery?',            body:'Confirm packaging is sealed and you are at the collection point.' },
@@ -2093,7 +2071,6 @@ const MOBILE_NAV = {
   launchGuestApp();
 })();
 
-  
 window.addEventListener('hashchange', () => {
   if (!currentUser && window.location.hash === '#admin') showAuthPage('admin');
 });
@@ -2559,7 +2536,6 @@ function renderPlaceOrder(el) {
   updateMobileOrderBar(0, 0);
 }
 
-
 function renderHome(el) {
   el.innerHTML = `
     <div class="landing-hero">
@@ -2603,7 +2579,7 @@ function renderHome(el) {
         </div>
         <button class="btn btn-primary btn-sm" onclick="navigateTo('place-order')" style="align-self: flex-start; margin-top: 12px;">Order Now</button>
       </div>
-      
+
       <div class="landing-portal-card">
         <div>
           <h3>Platform Stall Supplies</h3>
@@ -2614,7 +2590,7 @@ function renderHome(el) {
     </div>
   `;
 }
-  
+
 function setOrderType(type) {
   orderType = type;
   document.getElementById('ot-train').classList.toggle('active', type === 'train');
