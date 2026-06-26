@@ -1593,13 +1593,14 @@ input:focus, select:focus, textarea:focus {
       </div>
     </div>
 
-    <!-- Crew card -->
+<!-- Crew card -->
     <div id="auth-crew" class="auth-card hidden">
       <div class="card-header">
         <div class="card-title">Crew Sign In</div>
         <div class="card-subtitle">Select your profile and enter your PIN</div>
       </div>
       <form onsubmit="return false;">
+      <input type="text" autocomplete="username" value="crew" style="position:absolute;left:-9999px" aria-hidden="true" tabindex="-1">
       <div class="form-group">
         <label>Crew Member</label>
         <!-- Options are populated dynamically by loadCrewDropdown() -->
@@ -1615,6 +1616,9 @@ input:focus, select:focus, textarea:focus {
       </form>
     </div>
 
+
+
+        
     <!-- Admin card -->
     <div id="auth-admin" class="auth-card hidden">
       <div class="card-header">
