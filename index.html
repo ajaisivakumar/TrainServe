@@ -619,6 +619,7 @@ textarea { resize: vertical; min-height: 64px; }
   position: relative;
   margin-bottom: 20px;
   width: 100%;
+  min-height: 64px;
 }
 
 .search-wrap input {
@@ -652,6 +653,12 @@ textarea { resize: vertical; min-height: 64px; }
 .search-btn:hover {
   transform: translateY(-50%) scale(1.03);
   background: var(--accent-h);
+}
+
+@media (max-width: 520px) {
+  .search-wrap { min-height: 56px; }
+  .search-wrap input { height: 56px; font-size: 15px; padding-right: 52px; }
+  .search-btn { width: 40px; height: 40px; right: 10px; }
 }
 
 .search-wrap::after {
@@ -2769,16 +2776,16 @@ function renderHome(el) {
     <div class="landing-hero">
       <div class="landing-hero-content">
         <span class="badge badge-accepted" style="background: rgba(255, 56, 92, 0.14); color: var(--accent); font-size: 11px; margin-bottom: 12px; display: inline-flex;">Railway Supply Intelligence</span>
-        <h1>KB Enterprises has supplied train pantry and stall owners for years from Villupuram</h1>
-        <p>Trusted by pantry coordinators and platform stall owners across the region, KB provides every bulk item needed for onboard services and station retail — with fast replenishment and reliable delivery from Villupuram.</p>
+        <h1>Trusted supplier for railway pantry and stall orders</h1>
+        <p>Fast bulk delivery for snacks, beverages and service essentials, with local support and reliable stock replenishment.</p>
         <div class="landing-cta-row">
           <button class="btn btn-primary" onclick="navigateTo('place-order')">Place Bulk Order</button>
           <button class="btn btn-outline" onclick="showAuthPage('user')" style="background:transparent; color:var(--text); border-color:rgba(255,56,92,0.24)">Portal Sign In</button>
         </div>
         <div class="landing-trust-strip">
           <div>Longstanding market leader for railway pantry and stall supplies</div>
-          <div>Bulk ordering and delivery designed for pantry coordinators and stall owners</div>
-          <div>Full inventory of snacks, beverages, meals, and service essentials</div>
+          <div>Serving customers from Villupuram with trusted pantry and stall stock delivery</div>
+          <div>Full inventory of snacks, beverages and service essentials</div>
         </div>
       </div>
       <div class="landing-hero-visual">
