@@ -101,8 +101,8 @@ html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
   --amber:       #F59E0B; /* Amber-500 */
   --amber-bg:    #FEF3C7;
 
-  --blue:        #3B82F6; /* Blue-500 */
-  --blue-bg:     #DBEAFE;
+  --blue:        #ff385c; /* Accent fallback */
+  --blue-bg:     rgba(255, 56, 92, 0.12);
 
   --red:         #EF4444; /* Red-500 */
   --red-bg:      #FEE2E2;
@@ -164,7 +164,7 @@ body {
   border-radius: 9999px; font-size: 11px; font-weight: 600; letter-spacing: .2px;
 }
 .badge-pending   { background: var(--amber-bg);  color: var(--amber); }
-.badge-accepted  { background: var(--blue-bg);   color: var(--blue);  }
+.badge-accepted  { background: rgba(255, 56, 92, 0.12);   color: var(--accent);  }
 .badge-completed { background: var(--green-bg);  color: var(--green); }
 .badge-cancelled { background: var(--red-bg);    color: var(--red);   }
 
@@ -204,7 +204,7 @@ input, select, textarea {
   transition: all 0.15s ease-in-out;
 }
 input:focus, select:focus, textarea:focus {
-  border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255, 56, 92, 0.12);
 }
 input::placeholder { color: #94a3b8; }
 textarea { resize: vertical; min-height: 64px; }
@@ -251,7 +251,7 @@ textarea { resize: vertical; min-height: 64px; }
   align-items: center;
 }
 .topbar-brand em {
-  background: linear-gradient(135deg, #2563EB, #3B82F6);
+  background: linear-gradient(135deg, var(--accent), var(--accent-h));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -357,7 +357,7 @@ textarea { resize: vertical; min-height: 64px; }
 }
 .auth-brand-panel {
   flex: 1; min-width: 0;
-  background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+  background: linear-gradient(135deg, rgba(255, 56, 92, 0.08) 0%, rgba(255, 56, 92, 0.18) 100%);
   padding: 48px 36px; display: flex; flex-direction: column; justify-content: center;
 }
 .auth-brand-kb { font-size: 56px; font-weight: 800; color: var(--accent); letter-spacing: -1.5px; line-height: 1; }
@@ -477,14 +477,14 @@ textarea { resize: vertical; min-height: 64px; }
   border-color: #CBD5E1;
 }
 .product-tile.selected .qty-display {
-  background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%);
+  background: linear-gradient(135deg, var(--accent), var(--accent-h));
   color: #FFFFFF;
   border-color: transparent;
   box-shadow: 0 4px 10px rgba(255, 56, 92, 0.18);
 }
 .product-tile.selected:hover .qty-display {
-  background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 100%);
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  background: linear-gradient(135deg, var(--accent-h), var(--accent));
+  box-shadow: 0 4px 12px rgba(255, 56, 92, 0.22);
 }
 .product-tile.out-of-stock .qty-display {
   background: #FEE2E2;
@@ -662,47 +662,130 @@ textarea { resize: vertical; min-height: 64px; }
 
 /* ─── Premium Landing Page Styles ─── */
 .landing-hero {
-  background: var(--surface);
-  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(255, 56, 92, 0.08), rgba(255, 56, 92, 0.02));
+  border-radius: 24px;
   padding: 60px 40px;
   color: var(--text);
   position: relative;
   overflow: hidden;
   margin-bottom: 40px;
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: minmax(280px, 1.2fr) minmax(260px, 0.8fr);
+  gap: 36px;
 }
 
 .landing-hero::before {
   content: '';
   position: absolute;
-  top: -100px; right: -100px;
-  width: 300px; height: 300px;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 80%);
+  top: -90px; right: -90px;
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, rgba(255, 56, 92, 0.18) 0%, transparent 70%);
   border-radius: 50%;
 }
 
 .landing-hero-content {
   position: relative;
   z-index: 2;
-  max-width: 600px;
+  max-width: 560px;
 }
 
 .landing-hero h1 {
   font-family: 'Outfit', sans-serif;
-  font-size: 38px;
+  font-size: 42px;
   font-weight: 900;
-  line-height: 1.15;
+  line-height: 1.08;
   margin-bottom: 16px;
   letter-spacing: -0.5px;
-  color: #FFFFFF;
+  color: var(--text);
 }
 
 .landing-hero p {
-  font-size: 15px;
-  line-height: 1.6;
-  opacity: 0.9;
+  font-size: 16px;
+  line-height: 1.75;
+  opacity: 0.88;
   margin-bottom: 28px;
+  max-width: 540px;
+}
+
+.landing-hero-visual {
+  display: grid;
+  gap: 20px;
+  align-items: start;
+}
+
+.hero-card {
+  background: var(--surface);
+  border: 1px solid rgba(255, 56, 92, 0.12);
+  border-radius: 22px;
+  padding: 22px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+}
+
+.hero-card .hero-badge {
+  display: inline-flex;
+  padding: 6px 12px;
+  background: rgba(255, 56, 92, 0.12);
+  color: var(--accent);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.hero-card .hero-value {
+  font-size: 42px;
+  font-weight: 900;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.hero-card .hero-label {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.hero-chart {
+  min-height: 220px;
+  border-radius: 24px;
+  background: radial-gradient(circle at top left, rgba(255, 56, 92, 0.12), transparent 42%),
+              linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
+  border: 1px solid rgba(255, 56, 92, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-chart::before,
+.hero-chart::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+}
+
+.hero-chart::before {
+  width: 140px; height: 140px;
+  right: -40px; top: -30px;
+  background: rgba(255, 56, 92, 0.12);
+}
+
+.hero-chart::after {
+  width: 120px; height: 120px;
+  left: -20px; bottom: -40px;
+  background: rgba(255, 56, 92, 0.08);
+}
+
+.hero-banner-small {
+  display: grid;
+  gap: 12px;
+  background: rgba(255, 56, 92, 0.08);
+  border: 1px solid rgba(255, 56, 92, 0.12);
+  border-radius: 22px;
+  padding: 18px 20px;
+}
+
+.hero-banner-small div {
+  font-size: 13.5px;
+  color: var(--text-2);
 }
 
 .landing-cta-row {
@@ -743,42 +826,46 @@ textarea { resize: vertical; min-height: 64px; }
 
 .landing-step-card {
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 28px 24px;
+  border: 1px solid rgba(255, 56, 92, 0.12);
+  border-radius: 20px;
+  padding: 32px 24px;
   text-align: center;
-  box-shadow: var(--shadow-sm);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .landing-step-card:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
 }
 
 .landing-step-icon {
-  font-size: 32px;
-  margin-bottom: 16px;
-  display: inline-block;
-  background: #EFF6FF;
+  font-size: 20px;
+  margin-bottom: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
   width: 60px;
   height: 60px;
-  line-height: 60px;
   border-radius: 50%;
   text-align: center;
+  color: var(--accent);
+  box-shadow: 0 10px 30px rgba(255, 56, 92, 0.08);
+  border: 1px solid rgba(255, 56, 92, 0.14);
+  font-weight: 800;
 }
 
 .landing-step-card h3 {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
   color: var(--text);
 }
 
 .landing-step-card p {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--text-muted);
-  line-height: 1.5;
+  line-height: 1.7;
 }
 
 .landing-portals {
@@ -789,36 +876,54 @@ textarea { resize: vertical; min-height: 64px; }
 }
 
 .landing-portal-card {
-  background: linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%);
-  border: 1px solid var(--border);
-  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,248,248,0.95) 100%);
+  border: 1px solid rgba(255, 56, 92, 0.12);
+  border-radius: 18px;
   padding: 28px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.landing-portal-card::after {
+  content: '';
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  width: 120px;
+  height: 120px;
+  background: rgba(255, 56, 92, 0.08);
+  border-radius: 50%;
 }
 
 .landing-portal-card h3 {
   font-size: 18px;
   font-weight: 800;
-  margin-bottom: 8px;
+  margin-bottom: 20px;
   color: var(--text);
   font-family: 'Outfit', sans-serif;
+  letter-spacing: -0.3px;
 }
 
 .landing-portal-card p {
-  font-size: 13.5px;
+  font-size: 14px;
   color: var(--text-muted);
-  line-height: 1.6;
-  margin-bottom: 20px;
+  line-height: 1.7;
 }
 
 @media (max-width: 768px) {
   .landing-hero {
     padding: 40px 24px;
+    grid-template-columns: 1fr;
   }
   .landing-hero h1 {
-    font-size: 28px;
+    font-size: 30px;
+  }
+  .landing-hero-visual {
+    order: -1;
+    margin-bottom: 28px;
   }
   .landing-steps-grid {
     grid-template-columns: 1fr;
@@ -863,10 +968,10 @@ textarea { resize: vertical; min-height: 64px; }
   border-color: rgba(255, 56, 92, 0.12);
 }
 .product-tile:hover::after {
-  border-color: rgba(37, 99, 235, 0.1);
+  border-color: rgba(255, 56, 92, 0.12);
 }
 .product-tile.selected {
-  background: linear-gradient(135deg, #FFFFFF 0%, #F5F9FF 100%);
+  background: linear-gradient(135deg, #FFFFFF 0%, rgba(255, 56, 92, 0.06) 100%);
   border-color: var(--accent);
   box-shadow: 0 8px 24px rgba(255, 56, 92, 0.10);
 }
@@ -897,7 +1002,7 @@ textarea { resize: vertical; min-height: 64px; }
   transform: scale(1.08);
 }
 .product-tile:hover .prod-img {
-  background: linear-gradient(135deg, #E0EFFF 0%, #D0E5FF 100%);
+  background: linear-gradient(135deg, rgba(255, 56, 92, 0.08) 0%, rgba(255, 56, 92, 0.03) 100%);
 }
 .prod-name {
   font-size: 13px;
@@ -1074,7 +1179,7 @@ table.dt tbody tr:hover td { background: var(--bg); }
 .timeline-step.active .step-dot {
   border-color: var(--accent);
   background: var(--accent);
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+  box-shadow: 0 0 0 4px rgba(255, 56, 92, 0.12);
 }
 .step-label {
   font-size: 11px;
@@ -1324,7 +1429,7 @@ table.dt tbody tr:hover td { background: var(--bg); }
 
 /* ─── Auth Page: Premium Redesign ─── */
 #auth-page {
-  background: linear-gradient(135deg, #EFF6FF 0%, #F0F9FF 50%, #F8FAFC 100%);
+  background: linear-gradient(135deg, rgba(255, 56, 92, 0.08) 0%, rgba(255, 56, 92, 0.02) 50%, rgba(255, 56, 92, 0.01) 100%);
 }
 .auth-shell {
   border-radius: 20px;
@@ -1372,11 +1477,11 @@ table.dt tbody tr:hover td { background: var(--bg); }
   font-weight: 600;
 }
 .role-btn.active {
-  background: linear-gradient(135deg, #2563EB, #3B82F6);
-  color: #FFFFFF;
-  border-color: transparent;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-}
+    background: linear-gradient(135deg, var(--accent), var(--accent-h));
+    color: #FFFFFF;
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(255, 56, 92, 0.3);
+  }
 
 /* ─── Badges: Enhanced ─── */
 .badge {
@@ -1386,18 +1491,13 @@ table.dt tbody tr:hover td { background: var(--bg); }
   letter-spacing: 0.3px;
 }
 .badge-pending   { background: #FEF3C7; color: #B45309; }
-.badge-accepted  { background: #DBEAFE; color: #1D4ED8; }
+.badge-accepted  { background: rgba(255, 56, 92, 0.12); color: var(--accent); }
 .badge-completed { background: #D1FAE5; color: #047857; }
-.badge-cancelled { background: #FEE2E2; color: #B91C1C; }
-
-/* ─── Form Inputs: Premium Focus ─── */
-input, select, textarea {
-  border-radius: 10px;
   border: 1.5px solid #CBD5E1;
 }
 input:focus, select:focus, textarea:focus {
-  border-color: #3B82F6;
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(255, 56, 92, 0.12);
   background: #FAFCFF;
 }
 
@@ -1439,7 +1539,7 @@ input:focus, select:focus, textarea:focus {
 }
 .mob-nav-item.active {
   color: var(--accent);
-  background: linear-gradient(135deg, rgba(37,99,235,0.08), rgba(59,130,246,0.05));
+  background: linear-gradient(135deg, rgba(255,56,92,0.08), rgba(255,56,92,0.04));
 }
 
 /* ─── Section Titles: Gradient ─── */
@@ -1468,35 +1568,36 @@ input:focus, select:focus, textarea:focus {
 }
 
 /* ─── Progress Fill: Animated ─── */
-  background: linear-gradient(90deg, #3B82F6, #2563EB);
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-h));
   transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ─── Crew Avatar: Enhanced ─── */
 .crew-avatar {
-  background: linear-gradient(135deg, #EFF6FF, #DBEAFE);
-  border: 1.5px solid #BFDBFE;
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.1);
-  font-weight: 800;
+    background: linear-gradient(135deg, rgba(255,56,92,0.08), rgba(255,56,92,0.16));
+    border: 1.5px solid rgba(255,56,92,0.16);
+    box-shadow: 0 2px 8px rgba(255,56,92,0.12);
 }
 
 /* ─── Upload Zone ─── */
 .upload-zone {
   border-radius: 14px;
-  background: linear-gradient(135deg, #F8FAFF, #FAFCFF);
+  background: linear-gradient(135deg, #FFFFFF, rgba(255,56,92,0.05));
 }
 .upload-zone:hover {
   border-color: var(--accent);
-  background: linear-gradient(135deg, #EFF6FF, #F0F9FF);
-  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.08);
+  background: linear-gradient(135deg, rgba(255,56,92,0.06), rgba(255,56,92,0.03));
+  box-shadow: 0 4px 16px rgba(255,56,92,0.08);
 }
 
 /* ─── Popup Reminder: Enhanced ─── */
 .popup-reminder {
-  background: linear-gradient(135deg, #FFFFFF, #F8FAFF);
-  border: 1px solid rgba(37, 99, 235, 0.15);
+  background: linear-gradient(135deg, #FFFFFF, rgba(255,56,92,0.04));
+  border: 1px solid rgba(255,56,92,0.16);
   border-radius: 16px;
-  box-shadow: 0 16px 48px rgba(37, 99, 235, 0.15), 0 4px 12px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 16px 48px rgba(255,56,92,0.12), 0 4px 12px rgba(15, 23, 42, 0.08);
 }
 
 /* ─── Scrollbar: Minimal ─── */
@@ -1559,9 +1660,7 @@ input:focus, select:focus, textarea:focus {
 }
 .filter-pill.active {
   background: var(--accent); color: var(--accent-fg); border-color: var(--accent);
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
-}
-
+  box-shadow: 0 4px 12px rgba(255, 56, 92, 0.22);
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
@@ -2655,12 +2754,24 @@ function renderHome(el) {
   el.innerHTML = `
     <div class="landing-hero">
       <div class="landing-hero-content">
-        <span class="badge badge-accepted" style="background: rgba(255, 255, 255, 0.2); color: #FFFFFF; font-size: 11px; margin-bottom: 12px; display: inline-flex;">Bulk Logistics & Supply</span>
+        <span class="badge badge-accepted" style="background: rgba(255, 56, 92, 0.14); color: var(--accent); font-size: 11px; margin-bottom: 12px; display: inline-flex;">Bulk Logistics & Supply</span>
         <h1>Bulk Supply Delivery for Pantry & Platform Stalls</h1>
         <p>Streamline your inventory. Order water cases, beverages, snacks, and ice creams in bulk. Delivered directly to train pantry cars or station platform stalls across the railway network.</p>
         <div class="landing-cta-row">
           <button class="btn btn-primary" onclick="navigateTo('place-order')">Place Bulk Order</button>
-          <button class="btn btn-outline" onclick="showAuthPage('user')" style="background:transparent; color:#fff; border-color:rgba(255,255,255,0.4)">Portal Sign In</button>
+          <button class="btn btn-outline" onclick="showAuthPage('user')" style="background:transparent; color:var(--text); border-color:rgba(255,56,92,0.24)">Portal Sign In</button>
+        </div>
+      </div>
+      <div class="landing-hero-visual">
+        <div class="hero-card hero-card-1">
+          <div class="hero-badge">Order</div>
+          <div class="hero-value">1,250+</div>
+          <div class="hero-label">Orders processed monthly</div>
+        </div>
+        <div class="hero-chart"></div>
+        <div class="hero-banner-small">
+          <div>Fast delivery</div>
+          <div>Trusted by crew and stall owners</div>
         </div>
       </div>
     </div>
@@ -2670,17 +2781,17 @@ function renderHome(el) {
 
     <div class="landing-steps-grid">
       <div class="landing-step-card">
-        <div class="landing-step-icon"></div>
+        <div class="landing-step-icon">1</div>
         <h3>1. Select Bulk Products</h3>
         <p>Browse our catalog of beverages, snacks, water cases, and ice cream packs. Specify the bulk quantities you need.</p>
       </div>
       <div class="landing-step-card">
-        <div class="landing-step-icon"></div>
+        <div class="landing-step-icon">2</div>
         <h3>2. Enter Supply Details</h3>
         <p>Provide your details as a Train Pantry Coordinator (with train details) or Platform Stall Owner (with platform number).</p>
       </div>
       <div class="landing-step-card">
-        <div class="landing-step-icon"></div>
+        <div class="landing-step-icon">3</div>
         <h3>3. Bulk Delivery</h3>
         <p>Our network crew coordinates with the train schedule or stall location for a prompt, direct delivery of your supplies.</p>
       </div>
@@ -2957,7 +3068,7 @@ async function renderDashboard(el) {
       <div class="stats-grid mb-16">
         <div class="stat-card"><div class="stat-val">${stats.totalOrders}</div><div class="stat-label">Total Orders</div></div>
         <div class="stat-card"><div class="stat-val" style="color:var(--amber)">${stats.pending}</div><div class="stat-label">Pending</div></div>
-        <div class="stat-card"><div class="stat-val" style="color:var(--blue)">${stats.accepted}</div><div class="stat-label">In Progress</div></div>
+        <div class="stat-card"><div class="stat-val" style="color:var(--accent)">${stats.accepted}</div><div class="stat-label">In Progress</div></div>
         <div class="stat-card"><div class="stat-val" style="color:var(--green)">${stats.completed}</div><div class="stat-label">Completed</div></div>
         <div class="stat-card"><div class="stat-val">₹${stats.revenue}</div><div class="stat-label">Revenue</div></div>
       </div>
