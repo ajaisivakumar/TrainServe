@@ -29,37 +29,119 @@ html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 /* ─── Startup Loading Screen ─── */
 #app-loader {
   position: fixed; inset: 0; z-index: 99999;
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-h) 100%);
+  background: linear-gradient(135deg, rgba(255, 56, 92, 0.98), rgba(224, 11, 65, 0.96));
   display: flex; align-items: center; justify-content: center;
-  transition: opacity 0.5s ease, visibility 0.5s ease;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
 }
 #app-loader.hide { opacity: 0; visibility: hidden; pointer-events: none; }
-.loader-inner { width: 100%; max-width: 420px; padding: 0 24px; text-align: center; }
-.loader-ring {
-  width: 72px; height: 72px; margin: 0 auto 26px;
-  border: 6px solid rgba(255,255,255,0.25);
-  border-top-color: #FFFFFF;
-  border-radius: 50%;
-  animation: spin 1.2s linear infinite;
+.loader-inner {
+  width: min(100%, 480px);
+  padding: 28px 24px;
+  text-align: center;
+  border-radius: 28px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.16);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.16);
 }
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.loader-track {
+  position: relative;
+  height: 100px;
+  margin: 0 auto 24px;
+  overflow: hidden;
+}
+.train-body {
+  position: absolute;
+  top: 18px;
+  left: -220px;
+  width: 220px;
+  height: 64px;
+  background: linear-gradient(135deg, #ffffff, #ffe6ec);
+  border-radius: 22px;
+  box-shadow: 0 18px 35px rgba(0,0,0,0.1);
+  border: 1px solid rgba(255,255,255,0.55);
+  animation: train-roll 3.5s linear infinite;
+}
+.train-body::before {
+  content: '';
+  position: absolute;
+  left: 14px; top: 10px;
+  width: 40px; height: 40px;
+  border-radius: 18px;
+  background: var(--accent);
+}
+.train-body::after {
+  content: '';
+  position: absolute;
+  right: 18px; top: 24px;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: rgba(255, 56, 92, 0.28);
+}
+.train-wheel {
+  position: absolute;
+  bottom: 10px; width: 18px; height: 18px;
+  border-radius: 50%; background: #333;
+  box-shadow: inset 0 0 0 4px rgba(255,255,255,0.3);
+}
+.train-wheel:first-child { left: 28px; }
+.train-wheel:last-child { right: 28px; }
+.train-smoke {
+  position: absolute;
+  top: 0; left: 10px;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
+.smoke-puff {
+  position: absolute;
+  width: 16px; height: 16px;
+  border-radius: 50%; background: rgba(255,255,255,0.85);
+  opacity: 0.8;
+  animation: puff 2.4s ease-in-out infinite;
+}
+.smoke-puff:nth-child(1) { left: 14px; top: 10px; animation-delay: 0s; }
+.smoke-puff:nth-child(2) { left: 24px; top: 4px; animation-delay: 0.3s; }
+.smoke-puff:nth-child(3) { left: 34px; top: 0px; animation-delay: 0.6s; }
+.train-rail {
+  position: absolute;
+  left: 0; right: 0; bottom: 10px;
+  height: 6px;
+  background: rgba(255,255,255,0.25);
+  border-radius: 999px;
+}
+.train-rail::before {
+  content: '';
+  position: absolute;
+  left: 8px; right: 8px; top: 10px;
+  height: 4px;
+  background: rgba(255,255,255,0.35);
+  border-radius: 999px;
+}
+@keyframes train-roll {
+  0% { transform: translateX(-240px); }
+  45% { transform: translateX(calc(100vw - 280px)); }
+  100% { transform: translateX(100vw); }
+}
+@keyframes puff {
+  0% { transform: translate(0,0) scale(0.85); opacity: 0.8; }
+  50% { transform: translate(-14px,-24px) scale(1.3); opacity: 0.35; }
+  100% { transform: translate(-30px,-40px) scale(1.6); opacity: 0; }
 }
 .loader-text {
-  display: flex; flex-direction: column; gap: 6px;
-  color: #FFFFFF;
+  display: flex; flex-direction: column; gap: 10px;
+  color: #ffffff;
 }
 .loader-text strong {
   font-family: 'Outfit', 'Inter', sans-serif;
-  font-size: 18px; font-weight: 800; letter-spacing: 1px;
+  font-size: 20px; font-weight: 800; letter-spacing: 1px;
 }
 .loader-text span {
-  font-size: 13px; color: rgba(255,255,255,0.8);
+  font-size: 14px; color: rgba(255,255,255,0.95);
+  line-height: 1.7;
   transition: opacity 0.3s ease;
 }
 @media (prefers-reduced-motion: reduce) {
-  .loader-ring { animation-duration: 0.01ms !important; }
+  .train-body { animation: none; }
+  .smoke-puff { animation: none; opacity: 0.8; transform: translate(0,0) scale(1); }
 }
 
 /* ─── Tokens — KB ENTERPRISES ─── */
@@ -190,6 +272,38 @@ input, select, textarea {
   font-family: var(--font); font-size: 14px; color: var(--text);
   background: var(--surface); outline: none;
   transition: all 0.15s ease-in-out;
+}
+.form-group { position: relative; }
+.autocomplete-list {
+  position: absolute;
+  left: 0; right: 0; top: calc(100% + 6px);
+  background: var(--surface);
+  border: 1px solid rgba(34,34,34,0.09);
+  border-radius: 14px;
+  box-shadow: 0 14px 40px rgba(15, 23, 42, 0.08);
+  z-index: 10;
+  max-height: 220px;
+  overflow-y: auto;
+}
+.autocomplete-list.hidden {
+  display: none;
+}
+.autocomplete-item {
+  padding: 12px 14px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--text);
+}
+.autocomplete-item:hover {
+  background: rgba(255, 56, 92, 0.08);
+}
+.autocomplete-item .muted {
+  color: var(--text-muted);
+  font-size: 12px;
 }
 input:focus, select:focus, textarea:focus {
   border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255, 56, 92, 0.12);
@@ -1704,10 +1818,21 @@ input:focus, select:focus, textarea:focus {
  <!-- STARTUP LOADING SCREEN -->
 <div id="app-loader">
   <div class="loader-inner">
-      <div class="loader-ring"></div>
+    <div class="loader-track">
+      <div class="train-body">
+        <div class="train-smoke">
+          <span class="smoke-puff"></span>
+          <span class="smoke-puff"></span>
+          <span class="smoke-puff"></span>
+        </div>
+        <div class="train-wheel"></div>
+        <div class="train-wheel"></div>
+      </div>
+      <div class="train-rail"></div>
+    </div>
     <div class="loader-text">
       <strong>KB Enterprises</strong>
-      <span id="loader-status">Preparing your KB supply dashboard…</span>
+      <span id="loader-status">Getting the supply train moving…</span>
     </div>
   </div>
 </div>
@@ -1903,6 +2028,160 @@ function getApiUrl() {
 
 let orderType = 'train'; // 'train' or 'stall'
 
+const TRAIN_LOOKUP = [
+  { name: 'Nellai Express', number: '12631', aliases: ['nellai', 'nellai express', 'nellai exp'] },
+  { name: 'Pandian Express', number: '12637', aliases: ['pandian', 'pandian express'] },
+  { name: 'Vaigai Express', number: '12635', aliases: ['vaigai', 'vaigai express'] },
+  { name: 'Chennai Egmore Express', number: '16135', aliases: ['chennai egmore', 'egmore express', 'chennai egmore express'] },
+  { name: 'Mysore Express', number: '12609', aliases: ['mysore', 'mysore express'] },
+  // Add your full train list here or extend it with saved values below.
+];
+
+const TRAIN_LOOKUP_KEY = 'kb_train_lookup';
+
+function normalizeTrainText(text) {
+  return (text || '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+function getSavedTrains() {
+  try {
+    const saved = JSON.parse(lsGet(TRAIN_LOOKUP_KEY) || '[]');
+    if (!Array.isArray(saved)) return [];
+    return saved.filter(t => t.name && t.number).map(t => ({
+      name: t.name,
+      number: t.number,
+      aliases: Array.isArray(t.aliases) ? t.aliases : [t.name]
+    }));
+  } catch {
+    return [];
+  }
+}
+
+function getTrainLookup() {
+  return [...TRAIN_LOOKUP, ...getSavedTrains()];
+}
+
+function saveCustomTrain(name, number) {
+  const trainName = name.trim();
+  const trainNo = number.trim();
+  if (!trainName || !trainNo) return false;
+  const saved = getSavedTrains();
+  const normalized = normalizeTrainText(trainName);
+  const exists = saved.some(t => normalizeTrainText(t.name) === normalized || t.number === trainNo);
+  if (exists) return false;
+  saved.push({ name: trainName, number: trainNo, aliases: [trainName] });
+  lsSet(TRAIN_LOOKUP_KEY, JSON.stringify(saved));
+  return true;
+}
+
+function findTrainByName(value) {
+  const query = normalizeTrainText(value);
+  if (!query) return null;
+  const trains = getTrainLookup();
+  const exactMatch = trains.find(t => normalizeTrainText(t.name) === query || t.aliases.some(a => normalizeTrainText(a) === query));
+  if (exactMatch) return exactMatch;
+  const partialMatches = trains.filter(t => normalizeTrainText(t.name).includes(query) || t.aliases.some(a => normalizeTrainText(a).includes(query)));
+  return partialMatches.length === 1 ? partialMatches[0] : null;
+}
+
+function findTrainMatches(value) {
+  const query = normalizeTrainText(value);
+  if (!query) return [];
+  return getTrainLookup().filter(t => normalizeTrainText(t.name).includes(query) || t.aliases.some(a => normalizeTrainText(a).includes(query)));
+}
+
+function renderTrainSuggestions(matches) {
+  const container = document.getElementById('train-suggestions');
+  if (!container) return;
+  if (!matches.length) {
+    container.innerHTML = '';
+    container.classList.add('hidden');
+    return;
+  }
+  container.innerHTML = matches.slice(0, 6).map(t =>
+    `<div class="autocomplete-item" data-name="${t.name}" data-number="${t.number}">
+      <span>${t.name}</span><span class="muted">${t.number}</span>
+    </div>`
+  ).join('');
+  container.classList.remove('hidden');
+  container.querySelectorAll('.autocomplete-item').forEach(item => {
+    item.onclick = () => {
+      const trainNameInput = document.getElementById('po-trainname');
+      const trainNoInput = document.getElementById('po-trainno');
+      const note = document.getElementById('train-autofill-note');
+      trainNameInput.value = item.dataset.name;
+      trainNoInput.value = item.dataset.number;
+      note.textContent = `Matched ${item.dataset.name} — train number filled automatically.`;
+      item.parentElement.classList.add('hidden');
+      document.getElementById('save-custom-train').classList.add('hidden');
+    };
+  });
+}
+
+function attachTrainAutocomplete() {
+  const trainNameInput = document.getElementById('po-trainname');
+  const trainNoInput = document.getElementById('po-trainno');
+  const trainNote = document.getElementById('train-autofill-note');
+  const saveButton = document.getElementById('save-custom-train');
+  const suggestions = document.getElementById('train-suggestions');
+  if (!trainNameInput || !trainNoInput || !trainNote || !saveButton || !suggestions) return;
+
+  const updateSuggestions = () => {
+    if (!trainNameInput.value.trim()) {
+      renderTrainSuggestions([]);
+      return;
+    }
+    renderTrainSuggestions(findTrainMatches(trainNameInput.value));
+  };
+
+  trainNameInput.oninput = () => {
+    const match = findTrainByName(trainNameInput.value);
+    if (match) {
+      trainNoInput.value = match.number;
+      trainNameInput.value = match.name;
+      trainNote.textContent = `Matched ${match.name} — train number filled automatically.`;
+      saveButton.classList.add('hidden');
+      renderTrainSuggestions([]);
+    } else {
+      trainNote.textContent = 'Type the train name and we will auto-fill the number when there is a match.';
+      updateSuggestions();
+      if (trainNameInput.value.trim() && trainNoInput.value.trim()) {
+        saveButton.classList.remove('hidden');
+      } else {
+        saveButton.classList.add('hidden');
+      }
+    }
+  };
+
+  trainNameInput.onfocus = updateSuggestions;
+  trainNameInput.onblur = () => setTimeout(() => renderTrainSuggestions([]), 150);
+
+  trainNoInput.oninput = () => {
+    const hasCustom = trainNameInput.value.trim() && trainNoInput.value.trim();
+    saveButton.classList.toggle('hidden', !hasCustom || !!findTrainByName(trainNameInput.value));
+  };
+}
+
+function saveCurrentTrainEntry() {
+  const trainNameInput = document.getElementById('po-trainname');
+  const trainNoInput = document.getElementById('po-trainno');
+  const loaderNote = document.getElementById('train-autofill-note');
+  if (!trainNameInput || !trainNoInput || !loaderNote) return;
+  const name = trainNameInput.value.trim();
+  const number = trainNoInput.value.trim();
+  if (!name || !number) { toast('Enter both train name and number first', 'err'); return; }
+  if (findTrainByName(name)) {
+    toast('This train is already in the list', 'warn');
+    return;
+  }
+  if (saveCustomTrain(name, number)) {
+    toast(`${name} added to train list`, 'ok');
+    renderPlaceOrder(document.getElementById('main-content'));
+  } else {
+    toast('Could not save this train entry', 'err');
+  }
+}
+
 let API = getApiUrl();
 //console.log('Using API URL:', API);
 
@@ -1915,16 +2194,16 @@ let API = getApiUrl();
   if (!loader) return;
 
   const MIN_DISPLAY_MS  = 900;   // never flash even on a warm backend
-  const SLOW_MSG_MS     = 6000;  // backend likely cold, say so
-  const VERY_SLOW_MS    = 20000; // reassure it's not stuck
+  const SLOW_MSG_MS     = 6000;  // backend may need a moment
+  const VERY_SLOW_MS    = 20000; // keep users assured
   const start = Date.now();
 
   const slowTimer = setTimeout(() => {
-    statusEl.textContent = 'Still starting…';
+    statusEl.textContent = 'Still warming up the dashboard…';
   }, SLOW_MSG_MS);
 
   const verySlowTimer = setTimeout(() => {
-    statusEl.textContent = 'Almost ready…';
+    statusEl.textContent = 'Almost ready — your supplies are arriving soon.';
   }, VERY_SLOW_MS);
 
   function hideLoader() {
@@ -2309,6 +2588,32 @@ window.addEventListener('hashchange', () => {
   if (!currentUser && window.location.hash === '#admin') showAuthPage('admin');
 });
 
+window.addEventListener('popstate', (event) => {
+  const state = event.state;
+  if (state?.app) {
+    if (state.page === 'auth') {
+      showAuthPage(state.authRole || 'user');
+      return;
+    }
+    if (state.page) {
+      navigateTo(state.page, { skipHistory: true });
+      return;
+    }
+  }
+
+  const hashPage = window.location.hash.replace('#', '');
+  if (hashPage) {
+    navigateTo(hashPage, { skipHistory: true });
+    return;
+  }
+
+  if (currentPage && currentPage !== 'home') {
+    history.replaceState({ page: 'home', app: true }, '', '#home');
+    navigateTo('home', { skipHistory: true });
+    return;
+  }
+});
+
 function launchGuestApp() {
   document.getElementById('auth-page').classList.add('hidden');
   document.getElementById('app').classList.remove('hidden');
@@ -2319,7 +2624,9 @@ function launchGuestApp() {
     <button class="btn btn-outline btn-sm" onclick="showAuthPage('user')">Sign In</button>`;
   currentRole = 'guest';
   buildGuestNav();
-  setTimeout(() => navigateTo('home'), 0); // Open Home landing page by default
+  history.replaceState({ page: 'home', app: true }, '', '#home');
+  history.pushState({ page: 'home', app: true }, '', '#home');
+  setTimeout(() => navigateTo('home', { skipHistory: true }), 0); // Open Home landing page by default
 }
 
 function buildGuestNav() {
@@ -2351,7 +2658,11 @@ function showAuthPage(role) {
   document.getElementById('app').classList.add('hidden');
   document.getElementById('auth-page').classList.remove('hidden');
   setRole(role || 'user');
-  if (role === 'admin') window.location.hash = 'admin';
+  if (role === 'admin') {
+    window.history.pushState({ page: 'auth', authRole: 'admin' }, '', '#admin');
+  } else {
+    window.history.pushState({ page: 'auth', authRole: role }, '', '#auth');
+  }
 }
 
 function launchApp() {
@@ -2370,7 +2681,10 @@ function launchApp() {
   document.getElementById('topbar-role-tag').textContent = r.charAt(0).toUpperCase() + r.slice(1).toLowerCase();
   buildNav();
   document.getElementById('main-content').style.paddingBottom = '';
-  navigateTo(NAV[currentUser.role.toLowerCase()]?.[0]?.id || 'place-order');
+  const defaultPage = NAV[currentUser.role.toLowerCase()]?.[0]?.id || 'place-order';
+  history.replaceState({ page: defaultPage, app: true }, '', `#${defaultPage}`);
+  history.pushState({ page: defaultPage, app: true }, '', `#${defaultPage}`);
+  navigateTo(defaultPage, { skipHistory: true });
 }
 
 function buildNav() {
@@ -2394,12 +2708,21 @@ function buildNav() {
 }
 
 const PUBLIC_PAGES = ['home', 'place-order'];
-function navigateTo(page) {
+function navigateTo(page, options = {}) {
+  const { skipHistory = false, replaceHistory = false } = options;
   if (!currentUser?.token && !PUBLIC_PAGES.includes(page)) {
     showAuthPage('user');
     return;
   }
   currentPage = page;
+  if (!skipHistory) {
+    const url = `#${page}`;
+    if (replaceHistory) {
+      window.history.replaceState({ page }, '', url);
+    } else {
+      window.history.pushState({ page }, '', url);
+    }
+  }
   document.getElementById('sidebar')?.classList.remove('mobile-open');
   document.getElementById('sidebar-backdrop')?.classList.remove('show');
   document.querySelectorAll('.sidebar-item,.mob-nav-item').forEach(e => e.classList.remove('active'));
@@ -2715,13 +3038,18 @@ function renderPlaceOrder(el) {
             <input type="text" id="po-name" placeholder="Full name" value="${currentUser?.name || ''}">
           </div>
           <div class="form-group">
+            <label>Train Name</label>
+            <input type="text" id="po-trainname" placeholder="e.g. Nellai Express" autocomplete="off">
+            <div class="autocomplete-list hidden" id="train-suggestions"></div>
+          </div>
+          <div class="form-group">
             <label>Train Number</label>
             <input type="text" id="po-trainno" placeholder="e.g. 12631" inputmode="numeric">
           </div>
-          <div class="form-group">
-            <label>Train Name</label>
-            <input type="text" id="po-trainname" placeholder="e.g. Nellai Express">
+          <div class="form-group small muted" id="train-autofill-note" style="margin-bottom: 8px;">
+            Type the train name and we will auto-fill the number when there is a match.
           </div>
+          <button type="button" id="save-custom-train" class="btn btn-outline btn-sm hidden" style="margin-bottom: 16px;" onclick="saveCurrentTrainEntry()">Save this train name and number</button>
           <div class="form-group">
             <label>Current Location of Train</label>
             <input type="text" id="po-location" placeholder="e.g. Madurai Jn">
@@ -2769,6 +3097,7 @@ function renderPlaceOrder(el) {
     </div>`;
   buildProductGrid();
   updateMobileOrderBar(0, 0);
+  attachTrainAutocomplete();
 }
 
 function renderHome(el) {
@@ -3408,12 +3737,13 @@ async function renderAuditLogs(el) {
         ${tab === 'payments' ? `
         <div class="card table-scroll" style="padding:0;overflow-x:auto">
           <table class="dt">
-            <thead><tr><th>Order</th><th>Amount Paid</th><th>Uploaded By</th><th>File</th><th>Uploaded At</th><th>Screenshot</th></tr></thead>
+            <thead><tr><th>Order</th><th>Amount Shown</th><th>Reported Amount</th><th>Uploaded By</th><th>File</th><th>Uploaded At</th><th>Screenshot</th></tr></thead>
             <tbody>
-              ${!payments.length ? `<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--text-muted)">No payment records yet.</td></tr>` :
+              ${!payments.length ? `<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--text-muted)">No payment records yet.</td></tr>` :
                 payments.map(p => `<tr>
                   <td style="font-weight:600">${p.orderId}</td>
-                  <td>₹${p.amountPaid}</td>
+                  <td>₹${p.screenshotAmount != null ? p.screenshotAmount : '—'}</td>
+                  <td>₹${p.reportedAmount != null ? p.reportedAmount : '—'}</td>
                   <td>${p.uploadedBy}</td>
                   <td style="font-size:12px;color:var(--text-muted)">${p.fileName||'—'}</td>
                   <td style="font-size:12px">${fmt(p.uploadedAt)}</td>
@@ -3617,6 +3947,15 @@ function openUpload(oid) {
       <p class="muted small mt-4">JPG or PNG</p>
       <div id="prev-${oid}" class="upload-preview"></div>
     </div>
+    <div class="form-group mt-16">
+      <label>Amount shown in screenshot</label>
+      <input type="number" id="payment-screenshot-amount" placeholder="e.g. 200" inputmode="numeric" min="0">
+    </div>
+    <div class="form-group">
+      <label>Amount entered by crew member</label>
+      <input type="number" id="payment-reported-amount" placeholder="e.g. 1000" inputmode="numeric" min="0">
+      <div class="muted small" style="margin-top:6px;">Enter the exact amount shown in the receipt and the actual amount paid.</div>
+    </div>
     <button class="btn btn-green btn-full mt-16" onclick="completeOrder('${oid}')">Mark Order as Completed</button>
   `);
 }
@@ -3638,12 +3977,33 @@ function previewImg(inp, oid) {
 
 async function completeOrder(oid) {
   try {
-    if (_uploadedImageBase64) {
-      await apiFetch('/orders/' + oid + '/payment-screenshot', {
-        method: 'PATCH',
-        body: JSON.stringify({ screenshotBase64: _uploadedImageBase64, fileName: _uploadedFileName || 'payment.jpg', amountPaid: 0 })
-      });
+    const screenshotAmountInput = document.getElementById('payment-screenshot-amount');
+    const reportedAmountInput = document.getElementById('payment-reported-amount');
+    const screenshotAmount = screenshotAmountInput ? Number(screenshotAmountInput.value.trim()) : NaN;
+    const reportedAmount = reportedAmountInput ? Number(reportedAmountInput.value.trim()) : NaN;
+
+    if (!_uploadedImageBase64) {
+      toast('Upload the payment screenshot first.', 'err');
+      return;
     }
+    if (!screenshotAmount || screenshotAmount <= 0) {
+      toast('Enter the amount shown in the screenshot.', 'err');
+      return;
+    }
+    if (!reportedAmount || reportedAmount <= 0) {
+      toast('Enter the amount reported by the crew member.', 'err');
+      return;
+    }
+
+    await apiFetch('/orders/' + oid + '/payment-screenshot', {
+      method: 'PATCH',
+      body: JSON.stringify({
+        screenshotBase64: _uploadedImageBase64,
+        fileName: _uploadedFileName || 'payment.jpg',
+        screenshotAmount,
+        reportedAmount
+      })
+    });
     await apiFetch('/orders/' + oid + '/complete', { method: 'PATCH' });
     _uploadedImageBase64 = null; _uploadedFileName = null;
     clearTimers(); dismissPopup(); closeModal();
