@@ -1157,11 +1157,12 @@ table.dt tbody tr:hover td { background: var(--bg); }
     visibility: hidden;
   }
 
-  #print-receipt, #print-receipt * {
+  /* Make sure the receipt itself is visible */
+  .receipt-card, .receipt-card * {
     visibility: visible;
   }
 
-  #print-receipt {
+  .receipt-card {
     position: absolute;
     left: 0;
     top: 0;
@@ -1171,10 +1172,12 @@ table.dt tbody tr:hover td { background: var(--bg); }
     page-break-before: avoid;
   }
 
-  .modal-close, .print-btn-row {
+  /* Hide buttons and modal chrome */
+  .modal, .modal-overlay, .modal-close, .print-btn-row {
     display: none !important;
   }
 }
+
 
 
 /* ══════════════════════════════════════════════════
