@@ -2118,19 +2118,8 @@ function attachTrainAutocomplete() {
 
   trainNameInput.oninput = () => {
     const value = trainNameInput.value;
-    const match = findTrainByName(value);
-    if (match) {
-      trainNoInput.value = match.number;
-      trainNameInput.value = match.name;
-      trainNote.textContent = `Matched ${match.name} — train number filled automatically.`;
-      renderTrainSuggestions([]);
-    } else {
-      trainNote.textContent = 'Choose a match from the list or type your own train name.';
-      if (value.trim()) {
-        trainNoInput.value = '';
-      }
-      updateSuggestions();
-    }
+    trainNote.textContent = 'Choose a match from the list or type your own train name and number.';
+    updateSuggestions();
   };
 
   trainNameInput.onfocus = updateSuggestions;
