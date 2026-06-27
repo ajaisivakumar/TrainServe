@@ -1148,29 +1148,34 @@ table.dt tbody tr:hover td { background: var(--bg); }
 }
 
 @media print {
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
   body * {
     visibility: hidden;
   }
-  .modal-overlay, .modal, .receipt-card, .receipt-card * {
+
+  #print-receipt, #print-receipt * {
     visibility: visible;
   }
-  .modal-overlay {
+
+  #print-receipt {
     position: absolute;
     left: 0;
     top: 0;
     width: 100%;
     background: white;
+    page-break-after: avoid;
+    page-break-before: avoid;
   }
-  .modal {
-    border: none;
-    box-shadow: none;
-    padding: 0;
-    max-width: 100%;
-  }
+
   .modal-close, .print-btn-row {
     display: none !important;
   }
 }
+
 
 /* ══════════════════════════════════════════════════
    ✨ PREMIUM VISUAL UPGRADES — KB ENTERPRISES
