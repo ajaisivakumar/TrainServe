@@ -2061,27 +2061,11 @@ function getTrainLookup() {
   return [...TRAIN_LOOKUP, ...getSavedTrains()];
 }
 
-function saveCustomTrain(name, number) {
-  const trainName = name.trim();
-  const trainNo = number.trim();
-  if (!trainName || !trainNo) return false;
-  const saved = getSavedTrains();
-  const normalized = normalizeTrainText(trainName);
-  const exists = saved.some(t => normalizeTrainText(t.name) === normalized || t.number === trainNo);
-  if (exists) return false;
-  saved.push({ name: trainName, number: trainNo, aliases: [trainName] });
-  lsSet(TRAIN_LOOKUP_KEY, JSON.stringify(saved));
-  return true;
-}
-
 function findTrainByName(value) {
   const query = normalizeTrainText(value);
   if (!query) return null;
   const trains = getTrainLookup();
-  const exactMatch = trains.find(t => normalizeTrainText(t.name) === query || t.aliases.some(a => normalizeTrainText(a) === query));
-  if (exactMatch) return exactMatch;
-  const partialMatches = trains.filter(t => normalizeTrainText(t.name).includes(query) || t.aliases.some(a => normalizeTrainText(a).includes(query)));
-  return partialMatches.length === 1 ? partialMatches[0] : null;
+  return trains.find(t => normalizeTrainText(t.name) === query || t.aliases.some(a => normalizeTrainText(a) === query)) || null;
 }
 
 function findTrainMatches(value) {
@@ -2113,7 +2097,6 @@ function renderTrainSuggestions(matches) {
       trainNoInput.value = item.dataset.number;
       note.textContent = `Matched ${item.dataset.name} — train number filled automatically.`;
       item.parentElement.classList.add('hidden');
-      document.getElementById('save-custom-train').classList.add('hidden');
     };
   });
 }
@@ -2122,9 +2105,8 @@ function attachTrainAutocomplete() {
   const trainNameInput = document.getElementById('po-trainname');
   const trainNoInput = document.getElementById('po-trainno');
   const trainNote = document.getElementById('train-autofill-note');
-  const saveButton = document.getElementById('save-custom-train');
   const suggestions = document.getElementById('train-suggestions');
-  if (!trainNameInput || !trainNoInput || !trainNote || !saveButton || !suggestions) return;
+  if (!trainNameInput || !trainNoInput || !trainNote || !suggestions) return;
 
   const updateSuggestions = () => {
     if (!trainNameInput.value.trim()) {
@@ -2135,52 +2117,26 @@ function attachTrainAutocomplete() {
   };
 
   trainNameInput.oninput = () => {
-    const match = findTrainByName(trainNameInput.value);
+    const value = trainNameInput.value;
+    const match = findTrainByName(value);
     if (match) {
       trainNoInput.value = match.number;
       trainNameInput.value = match.name;
       trainNote.textContent = `Matched ${match.name} — train number filled automatically.`;
-      saveButton.classList.add('hidden');
       renderTrainSuggestions([]);
     } else {
-      trainNote.textContent = 'Type the train name and we will auto-fill the number when there is a match.';
-      updateSuggestions();
-      if (trainNameInput.value.trim() && trainNoInput.value.trim()) {
-        saveButton.classList.remove('hidden');
-      } else {
-        saveButton.classList.add('hidden');
+      trainNote.textContent = 'Choose a match from the list or type your own train name.';
+      if (value.trim()) {
+        trainNoInput.value = '';
       }
+      updateSuggestions();
     }
   };
 
   trainNameInput.onfocus = updateSuggestions;
   trainNameInput.onblur = () => setTimeout(() => renderTrainSuggestions([]), 150);
-
-  trainNoInput.oninput = () => {
-    const hasCustom = trainNameInput.value.trim() && trainNoInput.value.trim();
-    saveButton.classList.toggle('hidden', !hasCustom || !!findTrainByName(trainNameInput.value));
-  };
 }
 
-function saveCurrentTrainEntry() {
-  const trainNameInput = document.getElementById('po-trainname');
-  const trainNoInput = document.getElementById('po-trainno');
-  const loaderNote = document.getElementById('train-autofill-note');
-  if (!trainNameInput || !trainNoInput || !loaderNote) return;
-  const name = trainNameInput.value.trim();
-  const number = trainNoInput.value.trim();
-  if (!name || !number) { toast('Enter both train name and number first', 'err'); return; }
-  if (findTrainByName(name)) {
-    toast('This train is already in the list', 'warn');
-    return;
-  }
-  if (saveCustomTrain(name, number)) {
-    toast(`${name} added to train list`, 'ok');
-    renderPlaceOrder(document.getElementById('main-content'));
-  } else {
-    toast('Could not save this train entry', 'err');
-  }
-}
 
 let API = getApiUrl();
 //console.log('Using API URL:', API);
@@ -3047,9 +3003,8 @@ function renderPlaceOrder(el) {
             <input type="text" id="po-trainno" placeholder="e.g. 12631" inputmode="numeric">
           </div>
           <div class="form-group small muted" id="train-autofill-note" style="margin-bottom: 8px;">
-            Type the train name and we will auto-fill the number when there is a match.
+            Choose a match from the dropdown and the train number will fill automatically. You can also enter a number manually.
           </div>
-          <button type="button" id="save-custom-train" class="btn btn-outline btn-sm hidden" style="margin-bottom: 16px;" onclick="saveCurrentTrainEntry()">Save this train name and number</button>
           <div class="form-group">
             <label>Current Location of Train</label>
             <input type="text" id="po-location" placeholder="e.g. Madurai Jn">
@@ -3737,13 +3692,12 @@ async function renderAuditLogs(el) {
         ${tab === 'payments' ? `
         <div class="card table-scroll" style="padding:0;overflow-x:auto">
           <table class="dt">
-            <thead><tr><th>Order</th><th>Amount Shown</th><th>Reported Amount</th><th>Uploaded By</th><th>File</th><th>Uploaded At</th><th>Screenshot</th></tr></thead>
+            <thead><tr><th>Order</th><th>Amount Paid</th><th>Uploaded By</th><th>File</th><th>Uploaded At</th><th>Screenshot</th></tr></thead>
             <tbody>
-              ${!payments.length ? `<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--text-muted)">No payment records yet.</td></tr>` :
+              ${!payments.length ? `<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--text-muted)">No payment records yet.</td></tr>` :
                 payments.map(p => `<tr>
                   <td style="font-weight:600">${p.orderId}</td>
-                  <td>₹${p.screenshotAmount != null ? p.screenshotAmount : '—'}</td>
-                  <td>₹${p.reportedAmount != null ? p.reportedAmount : '—'}</td>
+                  <td>₹${p.amountPaid != null ? p.amountPaid : (p.screenshotAmount != null ? p.screenshotAmount : '—')}</td>
                   <td>${p.uploadedBy}</td>
                   <td style="font-size:12px;color:var(--text-muted)">${p.fileName||'—'}</td>
                   <td style="font-size:12px">${fmt(p.uploadedAt)}</td>
@@ -3950,11 +3904,7 @@ function openUpload(oid) {
     <div class="form-group mt-16">
       <label>Amount shown in screenshot</label>
       <input type="number" id="payment-screenshot-amount" placeholder="e.g. 200" inputmode="numeric" min="0">
-    </div>
-    <div class="form-group">
-      <label>Amount entered by crew member</label>
-      <input type="number" id="payment-reported-amount" placeholder="e.g. 1000" inputmode="numeric" min="0">
-      <div class="muted small" style="margin-top:6px;">Enter the exact amount shown in the receipt and the actual amount paid.</div>
+      <div class="muted small" style="margin-top:6px;">This is the amount visible in the payment screenshot.</div>
     </div>
     <button class="btn btn-green btn-full mt-16" onclick="completeOrder('${oid}')">Mark Order as Completed</button>
   `);
@@ -3978,9 +3928,7 @@ function previewImg(inp, oid) {
 async function completeOrder(oid) {
   try {
     const screenshotAmountInput = document.getElementById('payment-screenshot-amount');
-    const reportedAmountInput = document.getElementById('payment-reported-amount');
     const screenshotAmount = screenshotAmountInput ? Number(screenshotAmountInput.value.trim()) : NaN;
-    const reportedAmount = reportedAmountInput ? Number(reportedAmountInput.value.trim()) : NaN;
 
     if (!_uploadedImageBase64) {
       toast('Upload the payment screenshot first.', 'err');
@@ -3990,18 +3938,13 @@ async function completeOrder(oid) {
       toast('Enter the amount shown in the screenshot.', 'err');
       return;
     }
-    if (!reportedAmount || reportedAmount <= 0) {
-      toast('Enter the amount reported by the crew member.', 'err');
-      return;
-    }
 
     await apiFetch('/orders/' + oid + '/payment-screenshot', {
       method: 'PATCH',
       body: JSON.stringify({
         screenshotBase64: _uploadedImageBase64,
         fileName: _uploadedFileName || 'payment.jpg',
-        screenshotAmount,
-        reportedAmount
+        amountPaid: screenshotAmount
       })
     });
     await apiFetch('/orders/' + oid + '/complete', { method: 'PATCH' });
