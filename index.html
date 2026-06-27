@@ -727,34 +727,6 @@ textarea { resize: vertical; min-height: 64px; }
   line-height: 1.7;
 }
 
-.hero-chart {
-  min-height: 220px;
-  border-radius: 24px;
-  background: radial-gradient(circle at top left, rgba(255, 56, 92, 0.12), transparent 42%),
-              linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
-  border: 1px solid rgba(255, 56, 92, 0.12);
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-chart::before,
-.hero-chart::after {
-  content: '';
-  position: absolute;
-  border-radius: 50%;
-}
-
-.hero-chart::before {
-  width: 140px; height: 140px;
-  right: -40px; top: -30px;
-  background: rgba(255, 56, 92, 0.12);
-}
-
-.hero-chart::after {
-  width: 120px; height: 120px;
-  left: -20px; bottom: -40px;
-  background: rgba(255, 56, 92, 0.08);
-}
 
 .hero-banner-small {
   display: grid;
@@ -881,24 +853,26 @@ textarea { resize: vertical; min-height: 64px; }
 }
 
 .landing-portal-card .btn-primary {
-  background: linear-gradient(135deg, #ff88a4 0%, #ff6c88 100%);
-  border-color: #ff88a4;
-  color: #ffffff;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-h) 100%);
+  border-color: var(--accent);
+  color: var(--accent-fg);
+  box-shadow: 0 6px 18px rgba(255,56,92,0.18);
 }
 
 .landing-portal-card .btn-primary:hover {
-  background: linear-gradient(135deg, #ff6c88 0%, #ff4d70 100%);
+  background: linear-gradient(135deg, var(--accent-h) 0%, var(--accent) 100%);
+  box-shadow: 0 8px 22px rgba(255,56,92,0.22);
 }
 
-.landing-portal-card .btn-outline {
-  background: rgba(255, 118, 133, 0.08);
-  color: #d92c67;
-  border-color: #ff88a4;
-}
-
-.landing-portal-card .btn-outline:hover {
-  background: rgba(255, 118, 133, 0.16);
-  border-color: #ff6c88;
+.landing-portal-card::after {
+  content: '';
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  width: 120px;
+  height: 120px;
+  background: rgba(255, 56, 92, 0.18);
+  border-radius: 50%;
 }
 
 .landing-portal-card h3 {
@@ -2768,9 +2742,8 @@ function renderHome(el) {
           <div class="hero-value">Realtime stock sync</div>
           <div class="hero-label">Monitor pantry and stall inventory from one dashboard.</div>
         </div>
-        <div class="hero-chart"></div>
         <div class="hero-banner-small">
-          <div>AI-assisted order planning</div>
+          <div>Streamlined order planning</div>
           <div>Route-ready deliveries for pantry cars and platform stalls</div>
         </div>
       </div>
