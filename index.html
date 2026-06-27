@@ -1148,36 +1148,29 @@ table.dt tbody tr:hover td { background: var(--bg); }
 }
 
 @media print {
-  body {
-    margin: 0;
-    padding: 0;
-  }
-
   body * {
     visibility: hidden;
   }
-
-  /* Make sure the receipt itself is visible */
-  .receipt-card, .receipt-card * {
+  .modal-overlay, .modal, .receipt-card, .receipt-card * {
     visibility: visible;
   }
-
-  .receipt-card {
+  .modal-overlay {
     position: absolute;
     left: 0;
     top: 0;
     width: 100%;
     background: white;
-    page-break-after: avoid;
-    page-break-before: avoid;
   }
-
-  /* Hide buttons and modal chrome */
-  .modal, .modal-overlay, .modal-close, .print-btn-row {
+  .modal {
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    max-width: 100%;
+  }
+  .modal-close, .print-btn-row {
     display: none !important;
   }
 }
-
 
 
 /* ══════════════════════════════════════════════════
